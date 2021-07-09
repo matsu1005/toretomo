@@ -1,0 +1,46 @@
+version: '3.7'
+
+services: 
+  db:
+    image: mysql:5.7
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    env_file: 
+        - ./backend/environments/db.env
+    ports:
+      - 4306:3306
+    volumes:
+      - mysql-db:/var/lib/mysql:cached
+
+  backend:
+    tty: true
+    build:
+        context: ./backend
+        args:
+          WORKDIR: $WORKDIR
+          CONTAINER_PORT: $CONTAINER_PORT
+    env_file: 
+        - ./backend/environments/db.env
+    ports:
+        - "$API_PORT:$CONTAINER_PORT"
+    volumes:
+      - ./backend:/$WORKDIR:cached
+    depends_on: 
+        - db
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    
+  front: 
+    build:
+        context: ./front
+        args:
+          WORKDIR: $WORKDIR
+          CONTAINER_PORT: $CONTAINER_PORT
+    volumes:
+      - ./front:/$WORKDIR:cached
+    command: 'yarn dev'
+    ports:
+        - "$FRONT_PORT:$CONTAINER_PORT"
+    depends_on: 
+        - backend
+volumes:
+  mysql-db:
+    driver: local
