@@ -30,9 +30,14 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.0]
 
       ## User Info
       t.string :name
-      t.string :nickname
-      t.string :image
+      t.string :icon
       t.string :email
+      t.text :profile
+      t.string :barth_year
+      t.string :barth_month
+      t.string :barth_day
+      t.string :sex
+      t.boolean :admin, default: false
 
       ## Tokens
       t.text :tokens
