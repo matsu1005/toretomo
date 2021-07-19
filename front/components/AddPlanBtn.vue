@@ -1,0 +1,10 @@
+<template>
+  <v-btn
+    fab
+    fixed
+    right
+    bottom
+    color="red"
+    large
+  >募集</v-btn>
+</template>
