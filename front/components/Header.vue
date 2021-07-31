@@ -14,20 +14,87 @@
     <v-btn color="#445CB0" to="/" class="header-link">
       <span>toretomoについて</span>
     </v-btn>
-    <v-btn to="/" class="header-link" plain>
+    <v-btn v-if="$auth.loggedIn" to="/" class="header-link" plain>
       <span>マイページ</span>
     </v-btn>
-    <v-btn to="/" class="header-link" plain>
-      <span>login</span>
-    </v-btn>
-    <v-btn to="/" class="header-link" plain>
-      <span>signup</span>
-    </v-btn>
-    <v-btn to="/" class="header-link" plain>
-      <span>logout</span>
-    </v-btn>
+    <template v-if="!$auth.loggedIn">
+      <v-btn 
+        color="primary"
+        @click.stop="loginDialog(true)"
+        to="/" 
+        class="header-link" 
+        plain>
+        <span style="color:white;">login</span>
+      </v-btn>
+      <v-dialog
+        v-model="loginModal"
+        max-width="600px"
+        persistent
+      >
+        <user-login/>
+      </v-dialog>
+    </template>
+
+    <template v-if="!$auth.loggedIn">
+      <v-btn 
+        color="primary"
+        @click.stop="signUpDialog(true)"
+        to="/" 
+        class="header-link" 
+        plain>
+        <span style="color:white;">signup</span>
+      </v-btn>
+      <v-dialog
+        v-model="signUpModal"
+        max-width="600px"
+        persistent
+      >
+        <user-signup/>
+      </v-dialog>
+    </template>
+    
+    <template v-if="$auth.loggedIn">
+      <v-btn
+        color="primary"
+        @click="$auth.logout()"
+        to="/" 
+        class="header-link" 
+        plain>
+        <span style="color:white;">logout</span>
+      </v-btn>
+    </template>
   </v-app-bar>
 </template>
+
+<script>
+import { mapGetters, mapActions } from "vuex"
+
+import UserLogin from '~/components/UserLogin.vue'
+import UserSignup from '~/components/UserSignup.vue'
+
+export default {
+  components: {
+    UserLogin,
+    UserSignup
+  },
+  data() {
+    return {
+    }
+  },  
+  computed: {
+    ...mapGetters({
+      loginModal: "modal/loginModal",
+      signUpModal: "modal/signUpModal",
+    }),
+  },
+  methods: {
+    ...mapActions({
+      loginDialog: "modal/loginUser",
+      signUpDialog: "modal/signUpUser",
+    })
+  }
+}
+</script>
 
 
 <style lang="scss">

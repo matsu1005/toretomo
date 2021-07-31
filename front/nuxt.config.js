@@ -28,6 +28,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/axios.js', ssr: false}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -41,7 +42,41 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
+
+  proxy: {
+    "/api": {
+      target: "http://backend:3000",
+      pathRewrite: {
+        '^/api': '/api'
+      }
+    }
+  },
+
+  axios: {
+    proxy: true,
+    baseURL: 'http://localhost:3000',
+    browserBaseURL: 'http://localhost:3000'
+  },
+  auth: {
+    redirect: {
+      login: 'users/login',
+      logout: '/',
+      callback: false,
+      home: '/'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'api/v1/auth/sign_in', method: 'post', propertyName: 'token'},
+          logout: false,
+          user: false
+        }
+      }
+    }
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
