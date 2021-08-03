@@ -4,7 +4,7 @@
       <v-form ref="form"  lazy-validation>
         <v-container>
           <v-btn icon large 
-          @click="signUpDialog(false)"
+          @click="signUpDialog(false), clearMessages()"
           style="position: fixed">
             <v-icon>mdi-close</v-icon>
           </v-btn>  
@@ -13,6 +13,7 @@
               サインアップ
             </p>
           </v-row>
+          <server-alert/> 
           <v-row justify="center">
             <v-col cols="12" md="10" sm="10">
               <v-text-field
@@ -67,9 +68,13 @@
 </template>
 
 <script>
-import { mapActions　} from "vuex" 
+import { mapActions } from "vuex" 
+import ServerAlert from '~/components/ServerAlert.vue'
 
 export default {
+  components: {
+    ServerAlert
+  },
   data () {
     return {
       user: {
@@ -83,6 +88,7 @@ export default {
   methods: {
     ...mapActions ({
       signUpDialog: "modal/signUpUser",
+      clearMessages: "errorMessage/clearMessages"
     }),
     async signUp () {
       await this.$axios.post(
@@ -91,6 +97,14 @@ export default {
           this.$auth.loginWith('local', {
             data: this.user})
           this.signUpDialog(false)
+          this.$store.dispatch(
+            "flashMessage/showMessage",
+            {
+              message: "ユーザー登録が完了しました",
+              type: "success",
+              status: true,
+            },
+          )
           return response
         },
         (error) => {

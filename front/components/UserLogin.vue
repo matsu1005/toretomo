@@ -4,7 +4,7 @@
       <v-form ref="form"  lazy-validation>
         <v-container>
           <v-btn icon large 
-          @click="loginDialog(false)"
+          @click="loginDialog(false), clearMessages()"
           style="position: fixed">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -13,6 +13,7 @@
               ログイン
             </p>
           </v-row>
+          <server-alert/> 
           <v-row justify="center">
             <v-col cols="12" md="10" sm="10">
               <v-text-field
@@ -51,8 +52,12 @@
 
 <script>
 import { mapActions　} from "vuex" 
+import ServerAlert from '~/components/ServerAlert.vue'
 
 export default {
+  components: {
+    ServerAlert
+  },
   data () {
     return {
       user: {
@@ -64,18 +69,27 @@ export default {
   methods: {
     ...mapActions ({
       loginDialog: "modal/loginUser",
+      clearMessages: "errorMessage/clearMessages"
     }),
     async loginWithAuthModule () {
       await this.$auth.loginWith('local', {
         data: this.user
       })
-        .then((response) => {
-          this.loginDialog(false)
-          return response
-        },
-        (error) => {
-          return error
-        })
+      .then((response) => {
+        this.loginDialog(false)
+        this.$store.dispatch(
+          "flashMessage/showMessage",
+          {
+            message: "ログインしました",
+            type: "success",
+            status: true,
+          }
+        )
+        return response
+      },
+      (error) => {
+        return error
+      })
     }
   }
 }
