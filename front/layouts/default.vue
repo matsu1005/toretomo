@@ -3,6 +3,7 @@
     <Header/>
     <v-main>
       <v-container>
+        <FlashMessage/>
         <Nuxt />
       </v-container>
     </v-main>
