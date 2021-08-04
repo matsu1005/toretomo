@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_19_142708) do
+ActiveRecord::Schema.define(version: 2021_08_04_141718) do
+
+  create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title"
+    t.text "detail"
+    t.date "start_ymd"
+    t.time "start_time"
+    t.string "duration"
+    t.string "event_cls"
+    t.string "train_strength"
+    t.string "place"
+    t.string "prefecture"
+    t.integer "join_limit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_plans_on_user_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -42,4 +59,5 @@ ActiveRecord::Schema.define(version: 2021_07_19_142708) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "plans", "users"
 end
