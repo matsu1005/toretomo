@@ -88,7 +88,8 @@ export default {
   methods: {
     ...mapActions ({
       signUpDialog: "modal/signUpUser",
-      clearMessages: "errorMessage/clearMessages"
+      clearMessages: "errorMessage/clearMessages",
+      setCurrentUser: "currentUser/setCurrentUser"
     }),
     async signUp () {
       await this.$axios.post(
@@ -97,6 +98,7 @@ export default {
           this.$auth.loginWith('local', {
             data: this.user})
           this.signUpDialog(false)
+          this.setCurrentUser(response.data.data)
           this.$store.dispatch(
             "flashMessage/showMessage",
             {

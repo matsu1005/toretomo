@@ -69,7 +69,8 @@ export default {
   methods: {
     ...mapActions ({
       loginDialog: "modal/loginUser",
-      clearMessages: "errorMessage/clearMessages"
+      clearMessages: "errorMessage/clearMessages",
+      setCurrentUser: "currentUser/setCurrentUser"
     }),
     async loginWithAuthModule () {
       await this.$auth.loginWith('local', {
@@ -77,6 +78,7 @@ export default {
       })
       .then((response) => {
         this.loginDialog(false)
+        this.setCurrentUser(response.data.data)
         this.$store.dispatch(
           "flashMessage/showMessage",
           {
