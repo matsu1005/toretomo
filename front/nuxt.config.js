@@ -30,6 +30,7 @@ export default {
   plugins: [
     {src: '~/plugins/axios.js', ssr: false},
     {src: '~/plugins/dayjs', ssr: false },
+    {src: '~/plugins/localStorage.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
