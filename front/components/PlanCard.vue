@@ -75,7 +75,6 @@ export default {
     })
   },
   created() {
-    console.log('created')
     this.getPlans().then(() => {
       this.loading = true
     })
