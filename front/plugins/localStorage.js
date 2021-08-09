@@ -1,9 +1,7 @@
 import createPersistedState from 'vuex-persistedstate'
 
-export default ({ store }) => {
-  window.onNuxtReady(() => {
-    createPersistedState({
-      path: ['currentUser'],
-    })(store)
-  })
+export default ({store}) => {
+  createPersistedState({
+    paths: ['currentUser']
+  })(store)
 }
