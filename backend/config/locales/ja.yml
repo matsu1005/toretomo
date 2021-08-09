@@ -26,3 +26,14 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
         name: ユーザー名
+      plan:
+        title: タイトル
+        detail: 詳細説明
+        start_ymd: 開催日
+        start_time: 開始時間
+        duration: 所要時間
+        event_cls: 練習区分
+        train_strength: 強度
+        join_limit: 参加人数
+        place: 集合場所
+        prefecture: エリア区分
