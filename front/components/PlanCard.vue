@@ -42,8 +42,8 @@
                 color="deep-orange" 
                 outlined
                 style="font-size:14px; margin-bottom: 0;">
-                開催日時:<strong>{{plan.start_ymd}} {{plan.start_time}}</strong><br>
-                (所要時間:<strong>{{plan.duration}}</strong>)</v-alert>
+                開催日時:<strong>{{$dayjs(plan.start_ymd).format('MM月DD日')}} {{$dayjs(plan.start_time).format('HH:mm')}}</strong><br>
+                (所要時間:<strong>{{plan.duration}}時間</strong>)</v-alert>
             </div>
           </v-card-text>
           <v-card-actions>
@@ -61,96 +61,30 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      plans: [
-        {
-          id: 1,
-          title: "尾根幹線往復、一緒にどうですか？？",
-          detail: "こんにちは、松山と言います。　涼しい午前中に尾根幹で一緒にトレーニングできる人を\
-                   募集しています。　巡航速度は25km/hくらいです。",
-          start_ymd: "2021-07-01",
-          start_time: "9:00",
-          duration: "3時間",
-          event_cls: "Bike",
-          train_strength: "fun",
-          place: "ローソン前",
-          prefecture: "東京都",
-          join_limit: 5
-        },
-        {
-          id: 2,
-          title: "尾根幹線往復、一緒にどうですか？？",
-          detail: "こんにちは、松山と言います。　涼しい午前中に尾根幹で一緒にトレーニングできる人を\
-                   募集しています。　巡航速度は25km/hくらいです。",
-          start_ymd: "2021-07-01",
-          start_time: "9:00",
-          duration: "3時間",
-          event_cls: "Bike",
-          train_strength: "fun",
-          place: "ローソン前",
-          prefecture: "東京都",
-          join_limit: 5
-        },
-        {
-          id: 3,
-          title: "尾根幹線往復、一緒にどうですか？？尾根幹線往復、一緒にどうですか？？",
-          detail: "こんにちは、松山と言います。　涼しい午前中に尾根幹で一緒にトレーニングできる人を\
-                   募集しています。　巡航速度は25km/hくらいです。",
-          start_ymd: "2021-07-01",
-          start_time: "9:00",
-          duration: "3時間",
-          event_cls: "Bike",
-          train_strength: "fun",
-          place: "ローソン前",
-          prefecture: "東京都",
-          join_limit: 5
-        },
-        {
-          id: 4,
-          title: "尾根幹線往復、一緒にどうですか？？",
-          detail: "こんにちは、松山と言います。　涼しい午前中に尾根幹で一緒にトレーニングできる人を\
-                   募集しています。　巡航速度は25km/hくらいです。",
-          start_ymd: "2021-07-01",
-          start_time: "9:00",
-          duration: "3時間",
-          event_cls: "Bike",
-          train_strength: "fun",
-          place: "ローソン前",
-          prefecture: "東京都",
-          join_limit: 5
-        },
-        {
-          id: 5,
-          title: "皇居をゆったり２周ほど！ぜひご一緒にどうですか？？",
-          detail: "こんにちは、松山と言います。　涼しい午前中に尾根幹で一緒にトレーニングできる人を\
-                   募集しています。　巡航速度は25km/hくらいです。",
-          start_ymd: "2021-07-01",
-          start_time: "9:00",
-          duration: "3時間",
-          event_cls: "Bike",
-          train_strength: "fun",
-          place: "ローソン前",
-          prefecture: "東京都",
-          join_limit: 5
-        },
-        {
-          id: 6,
-          title: "皇居をゆったり２周ほど！ぜひご一緒にどうですか？？",
-          detail: "こんにちは、松山と言います。　涼しい午前中に尾根幹で一緒にトレーニングできる人を\
-                   募集しています。　巡航速度は25km/hくらいです。",
-          start_ymd: "2021-07-01",
-          start_time: "9:00",
-          duration: "3時間",
-          event_cls: "Bike",
-          train_strength: "fun",
-          place: "ローソン前",
-          prefecture: "東京都",
-          join_limit: 5
-        }
-      ]
-    }),
+import { mapGetters, mapActions} from 'vuex'
+
+export default {
+  data() {
+    return {
+      loading: false,
+    }
+  },
+  computed: {
+    ...mapGetters({
+      plans: 'plan/plans'
+    })
+  },
+  created() {
+    this.getPlans().then(() => {
+      this.loading = true
+    })
+  },
+  methods: {
+    ...mapActions({
+      getPlans: 'plan/getPlans'
+    })
   }
+}
 </script>
 
 <style>

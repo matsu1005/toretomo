@@ -30,5 +30,10 @@ export default function({ $axios, store }) {
       store.commit("errorMessage/setMessages", messages)
       return 
     }
+    if (code === 400) {
+      const messages = error.response.data.errors.error
+      store.commit("errorMessage/setMessages", messages)
+      return 
+    }
   })
 }

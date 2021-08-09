@@ -56,8 +56,7 @@
     <template v-if="$auth.loggedIn">
       <v-btn
         color="primary"
-        @click="$auth.logout(),
-                flashMessage({message: 'ログアウトしました',type: 'orange',status: true})"
+        @click="$auth.logout(), logoutUser()"
         to="/" 
         class="header-link" 
         plain>
@@ -93,7 +92,10 @@ export default {
       loginDialog: "modal/loginUser",
       signUpDialog: "modal/signUpUser",
       flashMessage: "flashMessage/showMessage"
-    })
+    }),
+    logoutUser() {
+      this.flashMessage({message: 'ログアウトしました',type: 'orange',status: true})
+    }
   }
 }
 </script>
