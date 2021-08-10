@@ -11,10 +11,10 @@
       </nuxt-link>
     </v-toolbar-title>
     <v-spacer />
-    <v-btn color="#445CB0" to="/" class="header-link">
+    <v-btn color="#445CB0" to="#" class="header-link">
       <span>toretomoについて</span>
     </v-btn>
-    <v-btn v-if="$auth.loggedIn" to="/" class="header-link" plain>
+    <v-btn v-if="$auth.loggedIn" to="/users" class="header-link" plain>
       <span>マイページ</span>
     </v-btn>
     <template v-if="!$auth.loggedIn">

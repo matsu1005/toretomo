@@ -1,6 +1,5 @@
 <template>
-  <div style="text-align:center;">    
-    <v-divider v-if="!allSelected"></v-divider>
+  <div style="text-align:center;">  
     <h4>条件を指定してください</h4>
     <v-list>
       <template v-for="item in events">
