@@ -77,6 +77,7 @@ export default {
         data: this.user
       })
       .then((response) => {
+        console.log(response)
         this.loginDialog(false)
         this.setCurrentUser(response.data.data)
         this.$store.dispatch(
