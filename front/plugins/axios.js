@@ -1,4 +1,4 @@
-export default function({ $axios, store }) {
+export default function({ $axios, store, app }) {
   $axios.onRequest(config => {
     config.headers.client = window.localStorage.getItem("client")
     config.headers["access-token"] = window.localStorage.getItem("access-token")
@@ -34,6 +34,10 @@ export default function({ $axios, store }) {
       const messages = error.response.data.errors.error
       store.commit("errorMessage/setMessages", messages)
       return 
+    }
+    if (code === 404) {
+      console.log('404')
+      app.router.push({ path: '/errors/404' })
     }
   })
 }
