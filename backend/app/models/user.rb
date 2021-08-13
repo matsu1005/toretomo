@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  mount_uploader :icon, ImageUploader
+
   validates :name, presence: true, uniqueness: true, length: {maximum: 15}
 
   has_many :plan, dependent: :destroy
