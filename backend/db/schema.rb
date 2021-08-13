@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_04_141718) do
+ActiveRecord::Schema.define(version: 2021_08_12_140632) do
 
   create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -45,9 +45,9 @@ ActiveRecord::Schema.define(version: 2021_08_04_141718) do
     t.string "icon"
     t.string "email"
     t.text "profile"
-    t.string "barth_year"
-    t.string "barth_month"
-    t.string "barth_day"
+    t.string "birth_year"
+    t.string "birth_month"
+    t.string "birth_day"
     t.string "sex"
     t.boolean "admin", default: false
     t.text "tokens"
