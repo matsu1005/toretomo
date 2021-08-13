@@ -8,7 +8,7 @@ module Api
           params.permit(:name, :email, :password, :password_confirmation)
         end
       
-        def accout_update_params
+        def account_update_params
           params.permit(:name, :email, :icon, :profile, :birth_year, :birth_month, :birth_day, :sex)
         end
 

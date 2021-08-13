@@ -14,7 +14,7 @@
     <v-btn color="#445CB0" to="#" class="header-link">
       <span>toretomoについて</span>
     </v-btn>
-    <v-btn v-if="$auth.loggedIn" to="/users" class="header-link" plain>
+    <v-btn v-if="$auth.loggedIn" :to="{ path: `/users/${currentUser.id}` }" class="header-link" plain>
       <span>マイページ</span>
     </v-btn>
     <template v-if="!$auth.loggedIn">
@@ -85,6 +85,7 @@ export default {
     ...mapGetters({
       loginModal: "modal/loginModal",
       signUpModal: "modal/signUpModal",
+      currentUser: "currentUser/user",
     }),
   },
   methods: {
