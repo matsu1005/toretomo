@@ -27,3 +27,5 @@
 /config/master.key
 
 .irb_history
+
+/public/uploads
