@@ -1,0 +1,50 @@
+version: 2.1
+
+jobs:
+  # buildするjob
+  build:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - checkout
+      - run:
+          name: docker-compose build
+          command: docker-compose build
+  # testするjob
+  test:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - checkout
+      - run:
+          name: docker-compose up -d
+          command: docker-compose up -d
+      - run: sleep 10
+      # バックエンド側テスト
+      - run:
+          name: docker-compose run backend rails db:create RAILS_ENV=test
+          command: docker-compose run backend rails db:create RAILS_ENV=test
+      - run:
+          name: docker-compose run backend rails db:migrate RAILS_ENV=test
+          command: docker-compose run backend rails db:migrate RAILS_ENV=test
+      - run:
+          name: docker-compose run backend bundle exec rspec spec
+          command: docker-compose run backend bundle exec rspec spec
+      - run:
+          name: docker-compose run front yarn install
+          command: docker-compose run front yarn install
+      # フロントエンド側テスト
+      - run:
+          name: docker-compose run front yarn run test
+          command: docker-compose run front yarn test
+      - run:
+          name: docker-compose down
+          command: docker-compose down
+
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
