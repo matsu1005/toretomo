@@ -13,7 +13,7 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV.fetch('MYSQL_ROOT_USER')%>
+  username: root
   password: <%= ENV.fetch('MYSQL_ROOT_PASSWORD') {'password'}%>
   host: db
 
@@ -27,7 +27,7 @@ development:
 test:
   <<: *default
   database: toretomo_test
-  username: <%= ENV.fetch('MYSQL_ROOT_USER')%>
+  username: root
   password: <%= ENV.fetch('MYSQL_ROOT_PASSWORD') {'password'}%>
 
 # As with config/credentials.yml, you never want to store sensitive information,
