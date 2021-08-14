@@ -21,7 +21,7 @@ services:
     env_file: 
       - ./backend/environments/db.env
     ports:
-      - $API_PORT:$CONTAINER_PORT
+      - "$API_PORT:$CONTAINER_PORT"
     volumes:
       - ./backend:/$WORKDIR:cached
     depends_on: 
@@ -38,7 +38,7 @@ services:
       - ./front:/$WORKDIR:cached
     command: 'yarn dev'
     ports:
-      - $FRONT_PORT:$CONTAINER_PORT
+      - "$FRONT_PORT:$CONTAINER_PORT"
     depends_on: 
       - backend
 volumes:
