@@ -68,7 +68,12 @@ export const actions = {
           commit("flashMessage/setStatus", false, { root: true })
         }, 3000)
         commit("errorMessage/clearMessages", null, { root: true })
-        commit("setSuccessPost", true)
+        commit("setSuccessPost", true)    
+        this.$axios.get('api/v1/plans')
+          .then((response) => {
+            commit('setPlans', response)
+        })
+        
       })
       .catch((error) => {
         commit("flashMessage/setMessage", "投稿が失敗しました。", { root: true })

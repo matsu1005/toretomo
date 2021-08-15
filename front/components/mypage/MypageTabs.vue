@@ -16,16 +16,16 @@
       </v-tabs> 
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          <plan-list/>
+          <plan-list :user="user"/>
         </v-tab-item>
         <v-tab-item>
 
         </v-tab-item>
         <v-tab-item>
-          <plan-list/>
+
         </v-tab-item>
         <v-tab-item>
-          <plan-list/>
+          
         </v-tab-item>
         <v-tab-item>
           <follow-list/>
@@ -43,19 +43,25 @@
 import PlanList from '~/components/mypage/PlanList.vue'
 import FollowList from '~/components/mypage/FollowList.vue'
 
-  export default {
-    components: {
-      PlanList,
-      FollowList
+export default {
+  components: {
+    PlanList,
+    FollowList
+  },
+  props: {
+    user: {
+      type: Object,
+      required: true,
     },
-    data () {
-      return {
-        tab: null,
-        items: [
-          '練習プラン', '活動報告', '参加', '気になる', 'フォロー', 'フォロワー'
-        ],
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      }
-    },
-  }
+  },
+  data () {
+    return {
+      tab: null,
+      items: [
+        '練習プラン', '活動報告', '参加', '気になる', 'フォロー', 'フォロワー'
+      ],
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    }
+  },
+}
 </script>

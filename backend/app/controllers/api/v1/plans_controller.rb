@@ -4,7 +4,7 @@ module Api
 
       def index
         @plans = Plan.all.includes(:user)
-        render json: @plans.as_json(includes: [:user])
+        render json: @plans.as_json(include: [{ user: { only: %w[icon name] } }])
       end
       
       def create

@@ -5,10 +5,15 @@
       fixed
       right
       bottom
-      color="red"
       large
+      dark
+      color="blue-grey"
       @click.stop="openPlanDialog(true)"
-    >募集</v-btn>
+    >
+      <v-icon dark>
+        mdi-pencil
+      </v-icon>
+      投稿</v-btn>
     <v-dialog
       v-model="planDialog"
       persistent
@@ -237,8 +242,10 @@ export default {
       clearMessages: "errorMessage/clearMessages",
     }),
     postPlan() {
-      this.plan['user_id'] = this.$store.state.currentUser.user.id
+      let user_id = this.$store.state.currentUser.user.id
+      this.plan['user_id'] = user_id
       this.createPlan(this.plan)
+      this.$router.push({ path: `users/${user_id}`})
     },
   },
   watch: {
