@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col v-for="plan in plans" :key="plan.id">
+      <v-col v-for="plan in user.plan" :key="plan.id">
         <v-card
           class="mx-auto card-content"
           width="300"
@@ -50,6 +50,7 @@
           </v-card-text>
           <v-card-actions>
             <v-btn
+              @click.stop="getDetailPlan(plan)"
             >
               詳細情報
             </v-btn>
@@ -57,34 +58,40 @@
           </v-card-actions>
         </v-card>
       </v-col>
+      <my-plan-detail v-if="clickPlan" :plan="clickPlan" @close="closeDialog"/>
     </v-row>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions} from 'vuex'
+import myPlanDetail from '~/components/mypage/myPlanDetail'
 
 export default {
+  components: {
+    myPlanDetail
+  },
+  props: {
+    user: {
+      type: Object,
+    },
+  },
   data() {
     return {
       loading: false,
+      planDialog: false,
+      clickPlan: null
     }
   },
-  computed: {
-    ...mapGetters({
-      plans: 'plan/plans'
-    })
-  },
-  created() {
-    this.getPlans().then(() => {
-      this.loading = true
-    })
-  },
   methods: {
-    ...mapActions({
-      getPlans: 'plan/getPlans'
-    })
-  }
+    getDetailPlan(plan) {
+      this.clickPlan = plan
+      this.planDialog = true
+    },
+    closeDialog() {
+      this.planDialog = false
+      this.clickPlan = null
+    }
+  },
 }
 </script>
 

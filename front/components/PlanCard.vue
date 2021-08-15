@@ -24,11 +24,21 @@
               
             </p>
             <div class="card-title">
-              <v-avatar color="#445CB0">
-                <v-icon dark>
-                  mdi-account-circle
-                </v-icon>
-              </v-avatar>
+          <nuxt-link 
+            style="text-decoration: none;" 
+            :to="{ path: `/users/${plan.user_id}` }">
+            <v-avatar v-if="plan.user.icon.url">
+              <v-img
+                alt="user"
+                :src="plan.user.icon.url"
+              />
+            </v-avatar >
+            <v-avatar v-else color="#445CB0">
+              <v-icon dark>
+                mdi-account-circle
+              </v-icon>
+            </v-avatar>
+          </nuxt-link>
               <div class="title-text">{{plan.title}}</div>
             </div>
             <p>
@@ -47,31 +57,41 @@
             </div>
           </v-card-text>
           <v-card-actions>
-            <v-btn
-              color="primary"
-            >
-              詳細情報
-            </v-btn>
+            <template>
+              <v-btn
+                color="primary"
+                @click.stop="getDetailPlan(plan)"
+              >
+                詳細情報
+              </v-btn>
+            </template>
             <div style="margin: 0 0 0 auto;">定員: [ 1 / {{plan.join_limit}} ]</div>
           </v-card-actions>
         </v-card>
       </v-col>
+      <plan-detail-dialog v-if="clickPlan" :plan="clickPlan" @close="closeDialog"/>
     </v-row>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions} from 'vuex'
+import PlanDetailDialog from '~/components/PlanDetailDialog'
 
 export default {
+  components: {
+    PlanDetailDialog
+  },
   data() {
     return {
       loading: false,
+      planDialog: false,
+      clickPlan: null
     }
   },
   computed: {
     ...mapGetters({
-      plans: 'plan/plans'
+      plans: 'plan/plans',
     })
   },
   created() {
@@ -81,8 +101,18 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPlans: 'plan/getPlans'
-    })
+      getPlans: 'plan/getPlans',
+      setUser: 'user/setUser'
+    }),
+    getDetailPlan(plan) {
+      this.clickPlan = plan
+      this.setUser(plan.user_id)
+      this.planDialog = true
+    },
+    closeDialog() {
+      this.planDialog = false
+      this.clickPlan = null
+    }
   }
 }
 </script>
