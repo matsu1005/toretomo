@@ -113,13 +113,13 @@
             更新
           </v-btn>
         </div>
-        <div style="max-width: 800px" v-if="show">
+        <div style="max-width: 600px" v-if="show">
           <p><strong>プロフィール</strong></p>
           <v-card-text class="text--primary" style="white-space:pre-line; word-wrap:break-word;">
             {{user.profile && user.profile !== 'null' ? user.profile: "プロフィールを設定してみましょう！！"}}
           </v-card-text>
         </div>
-        <v-card-text style="min-width:800px" v-if="!show">
+        <v-card-text style="min-width:600px" v-if="!show">
           <p><strong>プロフィール</strong></p>
           <v-textarea
             v-model="userInfo.profile"
@@ -188,6 +188,7 @@ export default {
   methods: {
     ...mapActions ({
       clearMessages: "errorMessage/clearMessages",
+      setUser: "user/setUser"
     }),
     setImage(file) {
       this.editImage = file
@@ -206,7 +207,7 @@ export default {
     },
     async changeUserProfile() {
       const formData = new FormData()
-      if (this.editImage != "") {
+      if (this.editImage != null) {
         formData.append("icon", this.editImage)
       }
       formData.append("name", this.userInfo.name)
@@ -223,7 +224,7 @@ export default {
         })
         .then((response) => {
           this.$store.commit("currentUser/setCurrentUser", response.data.data)
-          this.$store.commit("user/setUser", response.data.data)
+          this.setUser(this.id)
           this.show = true
           this.clearMessages()
           this.$store.dispatch(
