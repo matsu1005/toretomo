@@ -5,7 +5,8 @@
   >
     <v-card rounded="lg">
       <v-card-title style="display:flex;">
-        <div style="margin-top: 15px">
+        <div v-if="plan.user_id !== $store.state.currentUser.user.id" 
+          style="margin-top: 15px">
           <nuxt-link style="text-decoration: none;" :to="{ path: `/users/${plan.user_id}` }">
             <v-avatar v-if="plan.user.icon.url" size="56">
               <v-img
@@ -23,6 +24,9 @@
             {{plan.user.name}}
           </p>
         </div>
+        <p v-else class="mt-5">
+          自分の投稿
+        </p>
         <div>
           <v-chip 
             color="primary"
@@ -39,7 +43,8 @@
             {{plan.train_strength}}
           </v-chip>
         </div>
-        <div style=" margin: 0 0 0 auto">
+        <div  v-if="plan.user_id !== $store.state.currentUser.user.id"
+          style=" margin: 0 0 0 auto">
           <v-btn
             color="orange">
             参加

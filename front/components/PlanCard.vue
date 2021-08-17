@@ -8,6 +8,7 @@
         <v-card
           class="mx-auto card-content"
           width="300"
+          v-if="plan.user"
         >
           <v-card-text>
             <div>
@@ -106,7 +107,6 @@ export default {
     }),
     getDetailPlan(plan) {
       this.clickPlan = plan
-      this.setUser(plan.user_id)
       this.planDialog = true
     },
     closeDialog() {

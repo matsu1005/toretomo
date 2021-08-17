@@ -156,7 +156,8 @@ export default {
       id : this.$store.getters["currentUser/user"].id,
       userInfo: {
         name: this.$store.getters["currentUser/user"].name,
-        profile: this.$store.getters["currentUser/user"].profile,
+        profile: this.$store.getters["currentUser/user"].profile == 'null'? 
+                  '':this.$store.getters["currentUser/user"].profile,
         birth_year: this.$store.getters["currentUser/user"].birth_year,
         birth_month: this.$store.getters["currentUser/user"].birth_month,
         birth_day: this.$store.getters["currentUser/user"].birth_day,
