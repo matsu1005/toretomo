@@ -245,7 +245,6 @@ export default {
       let user_id = this.$store.state.currentUser.user.id
       this.plan['user_id'] = user_id
       this.createPlan(this.plan)
-      this.$router.push({ path: `users/${user_id}`})
     },
   },
   watch: {
@@ -263,6 +262,7 @@ export default {
           prefecture: '',
           join_limit: '5',
         }
+        this.$store.commit("plan/setSuccessPost", false)
         return
       }
     }

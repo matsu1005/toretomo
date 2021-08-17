@@ -113,13 +113,13 @@
             更新
           </v-btn>
         </div>
-        <div style="max-width: 800px" v-if="show">
+        <div style="max-width: 600px" v-if="show">
           <p><strong>プロフィール</strong></p>
           <v-card-text class="text--primary" style="white-space:pre-line; word-wrap:break-word;">
             {{user.profile && user.profile !== 'null' ? user.profile: "プロフィールを設定してみましょう！！"}}
           </v-card-text>
         </div>
-        <v-card-text style="min-width:800px" v-if="!show">
+        <v-card-text style="min-width:600px" v-if="!show">
           <p><strong>プロフィール</strong></p>
           <v-textarea
             v-model="userInfo.profile"
@@ -156,7 +156,8 @@ export default {
       id : this.$store.getters["currentUser/user"].id,
       userInfo: {
         name: this.$store.getters["currentUser/user"].name,
-        profile: this.$store.getters["currentUser/user"].profile,
+        profile: this.$store.getters["currentUser/user"].profile == 'null'? 
+                  '':this.$store.getters["currentUser/user"].profile,
         birth_year: this.$store.getters["currentUser/user"].birth_year,
         birth_month: this.$store.getters["currentUser/user"].birth_month,
         birth_day: this.$store.getters["currentUser/user"].birth_day,
@@ -188,6 +189,7 @@ export default {
   methods: {
     ...mapActions ({
       clearMessages: "errorMessage/clearMessages",
+      setUser: "user/setUser"
     }),
     setImage(file) {
       this.editImage = file
@@ -206,7 +208,7 @@ export default {
     },
     async changeUserProfile() {
       const formData = new FormData()
-      if (this.editImage != "") {
+      if (this.editImage != null) {
         formData.append("icon", this.editImage)
       }
       formData.append("name", this.userInfo.name)
@@ -223,7 +225,7 @@ export default {
         })
         .then((response) => {
           this.$store.commit("currentUser/setCurrentUser", response.data.data)
-          this.$store.commit("user/setUser", response.data.data)
+          this.setUser(this.id)
           this.show = true
           this.clearMessages()
           this.$store.dispatch(

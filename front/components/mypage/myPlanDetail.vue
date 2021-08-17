@@ -1,10 +1,13 @@
+////////////////////////
+// 不要になったcomponent//
+////////////////////////
 <template>
   <v-dialog
     v-model="planDialog"
     max-width="500px"
   >
     <v-card rounded="lg">
-      <v-card-title style="text-align:center">
+      <v-card-title>
         自分の投稿
       </v-card-title>
       <div>

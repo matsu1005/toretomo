@@ -16,6 +16,24 @@ module Api
         end
       end
 
+      def update
+        @plan = Plan.find(params[:id])
+        if @plan.update(plan_params)
+          render json: @post
+        else
+          render status: 400, json: {errors: {status: 400, error: @plan.errors.full_messages}}
+        end
+      end
+
+      def destroy
+        plan = Plan.find(params[:id])
+        if plan.destroy
+          render json: plan
+        else
+          render status: 400, json: {errors: {status: 400, error: @plan.errors.full_messages}}
+        end
+      end
+
       private
 
       def plan_params

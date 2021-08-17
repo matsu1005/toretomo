@@ -20,6 +20,7 @@ export default function({ $axios, store, app }) {
       return
     }
     const code = error.response.status
+    const method = error.response.config.method
     if (code === 422) {
       const messages = error.response.data.errors.full_messages
       store.commit("errorMessage/setMessages", messages)
@@ -35,9 +36,9 @@ export default function({ $axios, store, app }) {
       store.commit("errorMessage/setMessages", messages)
       return 
     }
-    if (code === 404) {
-      console.log('404')
+    if (code === 404 && method == "get") {
       app.router.push({ path: '/errors/404' })
+      return
     }
   })
 }
