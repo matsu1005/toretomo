@@ -15,16 +15,19 @@
               >
                 {{plan.train_strength}}
               </v-chip>
-              <div style="float:right">
+              <div v-if="plan.user_id === $store.state.currentUser.user.id" 
+                  style="float:right">
                 <v-btn
                   color="success"
                   small
+                  @click="editPlan(plan)"
                 >
                   編集
                 </v-btn>
                 <v-btn
                   color="error"
                   small
+                  @click="deletePlan(plan)"
                 >
                   削除
                 </v-btn>
@@ -58,17 +61,25 @@
           </v-card-actions>
         </v-card>
       </v-col>
-      <my-plan-detail v-if="clickPlan" :plan="clickPlan" @close="closeDialog"/>
+      <plan-detail-dialog v-if="planDialog" :plan="clickPlan" @close="closeDialog"/>
+      <edit-plan-dialog v-if="editDialog" :plan="clickPlan" @close="closeDialog"/>
+      <delete-plan-dialog v-if="deleteDialog" :plan="clickPlan" @close="closeDialog"/>
     </v-row>
   </div>
 </template>
 
 <script>
 import myPlanDetail from '~/components/mypage/myPlanDetail'
+import EditPlanDialog from '~/components/mypage/EditPlanDialog.vue'
+import PlanDetailDialog from '~/components/PlanDetailDialog.vue'
+import DeletePlanDialog from '~/components/mypage/DeletePlanDialog.vue'
 
 export default {
   components: {
-    myPlanDetail
+    myPlanDetail,
+    EditPlanDialog,
+    PlanDetailDialog,
+    DeletePlanDialog
   },
   props: {
     user: {
@@ -79,7 +90,9 @@ export default {
     return {
       loading: false,
       planDialog: false,
-      clickPlan: null
+      editDialog: false,
+      deleteDialog: false,
+      clickPlan: null,
     }
   },
   methods: {
@@ -89,7 +102,17 @@ export default {
     },
     closeDialog() {
       this.planDialog = false
+      this.editDialog = false
+      this.deleteDialog = false
       this.clickPlan = null
+    },
+    editPlan(plan) {
+      this.clickPlan = plan
+      this.editDialog = true
+    },
+    deletePlan(plan) {
+      this.clickPlan = plan
+      this.deleteDialog = true
     }
   },
 }
