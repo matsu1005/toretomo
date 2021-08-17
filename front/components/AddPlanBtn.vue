@@ -262,6 +262,7 @@ export default {
           prefecture: '',
           join_limit: '5',
         }
+        this.$store.commit("plan/setSuccessPost", false)
         return
       }
     }
