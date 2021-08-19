@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col v-for="plan in user.plan" :key="plan.id">
+      <v-col v-for="plan in plans" :key="plan.id">
         <v-card
           class="mx-auto card-content"
           width="300"
@@ -15,7 +15,7 @@
               >
                 {{plan.train_strength}}
               </v-chip>
-              <div v-if="plan.user_id === $store.state.currentUser.user.id" 
+              <div v-if="plan.user_id === currentUser.id" 
                   style="float:right">
                 <v-btn
                   color="success"
@@ -35,6 +35,21 @@
               </div>
             </div>
             <div class="card-title">
+            <nuxt-link v-if="plan.user_id !== currentUser.id"
+              style="text-decoration: none;" 
+              :to="{ path: `/users/${plan.user_id}` }">
+              <v-avatar v-if="plan.user.icon.url">
+                <v-img
+                  alt="user"
+                  :src="plan.user.icon.url"
+                />
+              </v-avatar >
+              <v-avatar v-else color="#445CB0">
+                <v-icon dark>
+                  mdi-account-circle
+                </v-icon>
+              </v-avatar>
+            </nuxt-link>
               <div class="plan-title">{{plan.title}}</div>
             </div>
             <p>
@@ -57,7 +72,7 @@
             >
               詳細情報
             </v-btn>
-            <div style="margin: 0 0 0 auto;">定員: [ 1 / {{plan.join_limit}} ]</div>
+            <div style="margin: 0 0 0 auto;">定員: [ {{plan.joins.length}} / {{plan.join_limit}} ]</div>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -69,6 +84,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions} from 'vuex'
 import myPlanDetail from '~/components/mypage/myPlanDetail'
 import EditPlanDialog from '~/components/mypage/EditPlanDialog.vue'
 import PlanDetailDialog from '~/components/PlanDetailDialog.vue'
@@ -82,8 +98,8 @@ export default {
     DeletePlanDialog
   },
   props: {
-    user: {
-      type: Object,
+    plans: {
+      type: Array,
     },
   },
   data() {
@@ -92,27 +108,42 @@ export default {
       planDialog: false,
       editDialog: false,
       deleteDialog: false,
-      clickPlan: null,
     }
   },
+  computed: {
+    ...mapGetters({
+      clickPlan: 'plan/plan',
+      currentUser: 'currentUser/user',
+    })
+  },
   methods: {
+    ...mapActions({
+      getPlans: 'plan/getPlans',
+      setUser: 'user/setUser',
+      getPlan: "plan/getPlan"
+    }),
     getDetailPlan(plan) {
-      this.clickPlan = plan
-      this.planDialog = true
+      this.getPlan(plan.id)
+      setTimeout(() => {
+        this.planDialog = true
+      }, 100)
     },
     closeDialog() {
       this.planDialog = false
       this.editDialog = false
       this.deleteDialog = false
-      this.clickPlan = null
     },
     editPlan(plan) {
-      this.clickPlan = plan
-      this.editDialog = true
+      this.getPlan(plan.id)
+      setTimeout(() => {
+        this.editDialog = true
+      }, 100)
     },
     deletePlan(plan) {
-      this.clickPlan = plan
-      this.deleteDialog = true
+      this.getPlan(plan.id)
+      setTimeout(() => {
+        this.deleteDialog = true
+      }, 100)
     }
   },
 }

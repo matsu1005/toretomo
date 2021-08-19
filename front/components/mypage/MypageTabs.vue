@@ -16,7 +16,7 @@
       </v-tabs> 
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          <plan-list :user="user"/>
+          <plan-list :plans="user.plan"/>
         </v-tab-item>
         <v-tab-item>
 
@@ -25,7 +25,7 @@
 
         </v-tab-item>
         <v-tab-item>
-          
+          <plan-list :plans="user.planjoin"/>
         </v-tab-item>
         <v-tab-item>
           <follow-list/>
