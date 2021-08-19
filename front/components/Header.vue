@@ -92,10 +92,12 @@ export default {
     ...mapActions({
       loginDialog: "modal/loginUser",
       signUpDialog: "modal/signUpUser",
-      flashMessage: "flashMessage/showMessage"
+      flashMessage: "flashMessage/showMessage",
+      clearCurrentUser: "currentUser/clearCurrentUser"
     }),
     logoutUser() {
       this.flashMessage({message: 'ログアウトしました',type: 'orange',status: true})
+      this.clearCurrentUser()
     }
   }
 }
