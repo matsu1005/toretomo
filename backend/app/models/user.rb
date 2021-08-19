@@ -12,4 +12,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true, length: {maximum: 15}
 
   has_many :plan, dependent: :destroy
+  has_many :joins, dependent: :destroy
+  has_many :planjoin, through: :joins, source: :plan
 end
