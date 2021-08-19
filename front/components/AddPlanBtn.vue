@@ -8,7 +8,7 @@
       large
       dark
       color="blue-grey"
-      @click.stop="openPlanDialog(true)"
+      @click.stop="openDialog()"
     >
       <v-icon dark>
         mdi-pencil
@@ -246,6 +246,14 @@ export default {
       this.plan['user_id'] = user_id
       this.createPlan(this.plan)
     },
+    openDialog() {
+      if (this.$store.$auth.$state.loggedIn) {
+        this.openPlanDialog(true)
+        console.log(this.$store)
+        return
+      }
+      alert('投稿するにはログインする必要があります。')
+    }
   },
   watch: {
     successPost: function(newVal, oldVal) {
