@@ -22,10 +22,10 @@
 
         </v-tab-item>
         <v-tab-item>
-
+          <plan-list :plans="user.planjoin"/>
         </v-tab-item>
         <v-tab-item>
-          <plan-list :plans="user.planjoin"/>
+          
         </v-tab-item>
         <v-tab-item>
           <follow-list/>
