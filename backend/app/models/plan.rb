@@ -1,7 +1,5 @@
 class Plan < ApplicationRecord
 
-  belongs_to :user
-
   validates :title, presence: true, length: {maximum: 75}
   validates :detail, presence: true
   validates :start_ymd, presence: true
@@ -12,5 +10,9 @@ class Plan < ApplicationRecord
   validates :place, presence: true, length: {maximum: 50}
   validates :prefecture, presence: true
   validates :join_limit, presence: true, numericality: {less_than: 20}
+
+  belongs_to :user
+  has_many :joins, dependent: :destroy
+  has_many :join_users, through: :joins, source: :user
 
 end

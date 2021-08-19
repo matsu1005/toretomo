@@ -25,21 +25,21 @@
               
             </p>
             <div class="card-title">
-          <nuxt-link 
-            style="text-decoration: none;" 
-            :to="{ path: `/users/${plan.user_id}` }">
-            <v-avatar v-if="plan.user.icon.url">
-              <v-img
-                alt="user"
-                :src="plan.user.icon.url"
-              />
-            </v-avatar >
-            <v-avatar v-else color="#445CB0">
-              <v-icon dark>
-                mdi-account-circle
-              </v-icon>
-            </v-avatar>
-          </nuxt-link>
+            <nuxt-link 
+              style="text-decoration: none;" 
+              :to="{ path: `/users/${plan.user_id}` }">
+              <v-avatar v-if="plan.user.icon.url">
+                <v-img
+                  alt="user"
+                  :src="plan.user.icon.url"
+                />
+              </v-avatar >
+              <v-avatar v-else color="#445CB0">
+                <v-icon dark>
+                  mdi-account-circle
+                </v-icon>
+              </v-avatar>
+            </nuxt-link>
               <div class="title-text">{{plan.title}}</div>
             </div>
             <p>
@@ -66,11 +66,11 @@
                 詳細情報
               </v-btn>
             </template>
-            <div style="margin: 0 0 0 auto;">定員: [ 1 / {{plan.join_limit}} ]</div>
+            <div style="margin: 0 0 0 auto;">定員: [ {{plan.joins.length}} / {{plan.join_limit}} ]</div>
           </v-card-actions>
         </v-card>
       </v-col>
-      <plan-detail-dialog v-if="clickPlan" :plan="clickPlan" @close="closeDialog"/>
+      <plan-detail-dialog v-if="planDialog" :plan="clickPlan" @close="closeDialog"/>
     </v-row>
   </div>
 </template>
@@ -87,12 +87,12 @@ export default {
     return {
       loading: false,
       planDialog: false,
-      clickPlan: null
     }
   },
   computed: {
     ...mapGetters({
       plans: 'plan/plans',
+      clickPlan: 'plan/plan',
     })
   },
   created() {
@@ -103,15 +103,17 @@ export default {
   methods: {
     ...mapActions({
       getPlans: 'plan/getPlans',
-      setUser: 'user/setUser'
+      setUser: 'user/setUser',
+      getPlan: "plan/getPlan"
     }),
     getDetailPlan(plan) {
-      this.clickPlan = plan
-      this.planDialog = true
+      this.getPlan(plan.id)
+      setTimeout(() => {
+        this.planDialog = true
+      }, 100)
     },
     closeDialog() {
       this.planDialog = false
-      this.clickPlan = null
     }
   }
 }

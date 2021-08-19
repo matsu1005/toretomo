@@ -26,10 +26,10 @@ export const getters = {
 }
 export const mutations = {
   setPlans(state, plans) {
-    state.plans = plans.data
+    state.plans = plans
   },
-  addPlan(state, plan) {
-    state.plans.push(plan)
+  setPlan(state, plan) {
+    state.plan = plan
   },
   openPlanDialog(state, bool) {
     state.planDialog = bool
@@ -47,14 +47,20 @@ export const mutations = {
 
 export const actions = {
   async getPlans({ commit }) {
-    const plans = {
-      data: '',
-    }
     await this.$axios
       .get('api/v1/plans')
       .then((response) => {
-        plans.data = response.data
-        commit('setPlans', plans)
+        commit('setPlans', response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+  async getPlan({ commit }, planId) {
+    await this.$axios
+      .get(`api/v1/plans/${planId}`)
+      .then((response) => {
+        commit('setPlan', response.data)
       })
       .catch((error) => {
         console.log(error)
@@ -65,7 +71,6 @@ export const actions = {
     await this.$axios
       .post('api/v1/plans', plan)
       .then((response) => {
-        commit('addPlan', response.data)
         commit('openPlanDialog', false)
         commit("flashMessage/setMessage", "投稿が成功しました。", { root: true })
         commit("flashMessage/setType", "success", { root: true })
@@ -144,10 +149,77 @@ export const actions = {
           .then((response) => {
             commit('user/setUser', response.data, { root: true})
           })
-        console.log(response)
       })
       .catch((error) => {
         commit("flashMessage/setMessage", "プランの削除に失敗しました。", { root: true })
+        commit("flashMessage/setType", "error", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 3000)
+        console.log(error)
+      })
+  },
+  async joinPlan({ commit }, formData) {
+    await this.$axios
+      .post("/api/v1/joins", formData)
+      .then((response) => {
+        commit("flashMessage/setMessage", "練習プランに参加しました。", { root: true })
+        commit("flashMessage/setType", "success", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 3000)
+        this.$axios.get(`api/v1/plans/${formData.plan_id}`)
+          .then((response) => {
+            commit('setPlan', response.data)
+          })
+        this.$axios.get('api/v1/plans')
+          .then((response) => {
+            commit('setPlans', response.data)
+          })
+        this.$axios
+          .get(`api/v1/users/${formData.user_id}`)
+          .then((response) => {
+            commit('user/setUser', response.data, { root: true})
+          })
+      })
+      .catch((error) => {
+        commit("flashMessage/setMessage", "練習プラン参加処理が失敗しました。", { root: true })
+        commit("flashMessage/setType", "error", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 3000)
+        console.log(error)
+      })
+  },
+  async unJoinPlan({ commit }, formData) {
+    await this.$axios
+      .delete(`/api/v1/joins/${formData.join_id}`)
+      .then((response) => {
+        commit("flashMessage/setMessage", "練習プランの参加を解除しました。", { root: true })
+        commit("flashMessage/setType", "success", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 3000)
+        this.$axios.get(`api/v1/plans/${formData.plan_id}`)
+          .then((response) => {
+            commit('setPlan', response.data)
+          })
+        this.$axios.get('api/v1/plans')
+          .then((response) => {
+            commit('setPlans', response.data)
+          })
+        this.$axios
+          .get(`api/v1/users/${formData.user_id}`)
+          .then((response) => {
+            commit('user/setUser', response.data, { root: true})
+          })
+      })
+      .catch((error) => {
+        commit("flashMessage/setMessage", "練習プラン参加の解除が失敗しました。", { root: true })
         commit("flashMessage/setType", "error", { root: true })
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {

@@ -43,11 +43,29 @@
             {{plan.train_strength}}
           </v-chip>
         </div>
-        <div  v-if="plan.user_id !== $store.state.currentUser.user.id"
+        <div  v-if="plan.user_id !== currentUser.id"
           style=" margin: 0 0 0 auto">
           <v-btn
-            color="orange">
+            v-if="isJoined"
+            :disabled="!$auth.loggedIn"
+            color="orange"
+            @click="unJoinAction(plan.joins)"
+            >
+            参加中
+            <v-icon dark>
+              mdi-run-fast
+            </v-icon>
+          </v-btn>
+          <v-btn
+            v-else
+            :disabled="!$auth.loggedIn"
+            color="gray"
+            @click="joinAction(plan.id)"
+            >
             参加
+            <v-icon dark>
+              mdi-account-arrow-left
+            </v-icon>
           </v-btn>
         </div>
       </v-card-title>
@@ -75,27 +93,57 @@
         <v-icon>mdi-close</v-icon>
         <div style="line-height:24px">閉じる</div> 
         </v-btn>
-        <div style="margin: 0 0 0 auto;">定員: [ 1 / {{plan.join_limit}} ]</div>
+        <div style="margin: 0 0 0 auto;">定員: [ {{plan.joins.length}} / {{plan.join_limit}} ]</div>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  props: {
-    plan: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
-      planDialog: true
+      planDialog: true,
+    }
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: "currentUser/user",
+      plan: "plan/plan"
+    }),
+    isJoined() {
+      if (!this.currentUser) return false
+      return this.plan.joins.find(ele => ele.user_id === this.currentUser.id)
     }
   },
   methods: {
+    ...mapActions({
+      joinPlan: "plan/joinPlan",
+      unJoinPlan: "plan/unJoinPlan",
+      getPlan: "plan/getPlan",
+      setUser: "user/setUser"
+    }),
+    joinAction(planId) {
+      if (this.plan.joins.length < this.plan.join_limit) {
+        let formData = {
+          user_id: this.currentUser.id,
+          plan_id: planId
+        }
+        this.joinPlan(formData)
+        return
+      }
+      alert('※定員が上限に達しているため、参加できません。')
+    },
+    unJoinAction(joins) {
+      let obj = joins.find(ele => ele.user_id == this.currentUser.id)
+      let formData = {
+        user_id: this.currentUser.id,
+        join_id: obj.id,
+        plan_id: this.plan.id
+      }
+      this.unJoinPlan(formData)
+    }
   },
   watch: {
     planDialog() {

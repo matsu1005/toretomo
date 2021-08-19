@@ -3,8 +3,21 @@ module Api
     class PlansController < ApplicationController
 
       def index
-        @plans = Plan.all.includes(:user)
-        render json: @plans.as_json(include: [{ user: { only: %w[icon name] } }])
+        @plans = Plan.all.includes(:user, :joins)
+        render json: @plans.as_json(include: [{ user: { only: %w[icon name] }}, :joins])
+      end
+
+      def show 
+        @plan = Plan.includes(:user, :joins).find(params[:id])
+        render json: @plan.as_json(include: [{
+            user: {
+              only: %w[icon name] 
+              },
+            joins: {
+               only: %w[id user_id] 
+              }
+            }]
+          )
       end
       
       def create
