@@ -20,8 +20,8 @@ export const actions = {
     this.$axios
       .get(`/api/v1/users/${user.id}`)
       .then((response) => {
-        commit('setCurrentUser', response)
-        console.log(response)
+        commit('setCurrentUser', response.data)
+        console.log(response.data)
     })
   },
   clearCurrentUser( { commit } ) {
