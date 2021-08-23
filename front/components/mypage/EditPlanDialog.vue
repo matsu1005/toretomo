@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="editDialog"
-    max-width="500px"
+    max-width="550px"
   >
     <v-card>
       <v-btn icon large 
@@ -224,6 +224,7 @@ export default {
   watch: {
     editDialog() {
       this.$emit("close")
+      this.$store.dispatch("errorMessage/clearMessages", null)
     },
     successPost: function(newVal, oldVal) {
       if (this.successPost) {
