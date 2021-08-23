@@ -25,6 +25,8 @@
     <v-row justify="center">
       <v-card outlined class="pa-5" style="display:flex; border:none;">
         <div class="mr-10" style="text-align:center;">
+          <follow-btn :user='user'/>
+          <v-spacer></v-spacer>
           <v-avatar
             color="primary"
             size="100"
@@ -137,10 +139,12 @@
 <script>
 import { mapActions } from 'vuex'
 import ServerAlert from '~/components/ServerAlert.vue'
+import FollowBtn from '~/components/mypage/FollowBtn.vue'
 
 export default {
   components: {
-    ServerAlert
+    ServerAlert,
+    FollowBtn
   },
   props: {
     user: {
