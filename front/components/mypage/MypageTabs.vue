@@ -28,10 +28,10 @@
           
         </v-tab-item>
         <v-tab-item>
-          <follow-list/>
+          <follow-list :users='user.followings'/>
         </v-tab-item>
         <v-tab-item>
-          <follow-list/>
+          <follow-list :users='user.followers'/>
         </v-tab-item>
       </v-tabs-items>
 

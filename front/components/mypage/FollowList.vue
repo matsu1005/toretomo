@@ -1,82 +1,60 @@
 <template>
   <v-list three-line>
-    <template v-for="(item, index) in items">
-      <v-subheader
-        v-if="item.header"
-        :key="item.header"
-        v-text="item.header"
-      ></v-subheader>
-
-      <v-divider
-        v-else-if="item.divider"
-        :key="index"
-        :inset="item.inset"
-      ></v-divider>
-
+    <template v-for="(user, index) in users">
       <v-list-item
-        v-else
-        :key="item.title"
+        :key="index"
       >
-        <v-list-item-avatar>
-          <v-img :src="item.avatar"></v-img>
-        </v-list-item-avatar>
+        <nuxt-link 
+          style="text-decoration: none;" 
+          :to="{ path: `/users/${user.id}` }">
+          <v-list-item-avatar>
+            <v-img :src="user.icon.url"></v-img>
+          </v-list-item-avatar>
+        </nuxt-link>
 
         <v-list-item-content>
-          <v-list-item-title v-html="item.name"></v-list-item-title>
-          <v-list-item-subtitle class="pr-5">
-            {{item.profile | omittedText}}
+          <v-list-item-title v-html="user.name"></v-list-item-title>
+          <v-list-item-subtitle class="pr-5" v-if="user.profile!=='null'">
+            {{user.profile | omittedText}}
+          </v-list-item-subtitle>
+          <v-list-item-subtitle class="pr-5" v-else>
+            未設定
           </v-list-item-subtitle>
         </v-list-item-content>
-        <v-btn
-          color="primary"
-          small
-        >
-          フォロー
-        </v-btn>
+        <follow-btn :user='user' v-if="route_id == currentUser.id"/> 
       </v-list-item>
     </template>
   </v-list>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      items: [
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          name: 'Mike',
-          profile: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          name: 'Sccot',
-          profile: `Wish I could come, but I'm out of town this weekend. Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.Wish I could come, but I'm out of town this weekend.`
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          name: 'Merry',
-          profile: 'Do you have Paris recommendations? Have you ever been?',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-          name: 'Andle',
-          profile: 'こんにちは　テストメッセージを入力しています。　こんにちは　テストメッセージを入力しています。　こんにちは　テストメッセージを入力しています。　こんにちは　テストメッセージを入力しています。　こんにちは　テストメッセージを入力しています。　こんにちは　テストメッセージを入力しています。　こんにちは　テストメッセージを入力しています。',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-          name: 'Rucy',
-          profile: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-        },
-      ],
-    }),
-  filters: {
-    omittedText(text) {
-     return text.length > 300 ? text.slice(0, 300) + "..." : text;
+import { mapGetters } from 'vuex'
+import FollowBtn from '~/components/mypage/FollowBtn.vue'
+
+export default {
+  components: {
+    FollowBtn
+  },
+  props: {
+    users: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      route_id: this.$route.params.id
     }
   },
-  }
+  computed: {
+    ...mapGetters({
+      currentUser: 'currentUser/user',
+    })
+  },
+  filters: {
+    omittedText(text) {
+    return text.length > 300 ? text.slice(0, 300) + "..." : text;
+    }
+  },
+}
 </script>

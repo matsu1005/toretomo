@@ -80,6 +80,7 @@ export default {
         console.log(response)
         this.loginDialog(false)
         this.setCurrentUser(response.data.data)
+        this.clearMessages()
         this.$store.dispatch(
           "flashMessage/showMessage",
           {

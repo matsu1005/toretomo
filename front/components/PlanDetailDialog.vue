@@ -4,6 +4,9 @@
     max-width="500px"
   >
     <v-card rounded="lg">
+      <div class="pt-10" v-if="existsMessages">
+        <server-alert/> 
+      </div>
       <v-card-title style="display:flex;">
         <div v-if="plan.user_id !== $store.state.currentUser.user.id" 
           style="margin-top: 15px">
@@ -101,7 +104,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import ServerAlert from '~/components/ServerAlert.vue'
+
 export default {
+  components: {
+    ServerAlert
+  },
   data() {
     return {
       planDialog: true,
@@ -110,7 +118,8 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: "currentUser/user",
-      plan: "plan/plan"
+      plan: "plan/plan",
+      existsMessages:  "errorMessage/existsMessages"
     }),
     isJoined() {
       if (!this.currentUser) return false
@@ -125,15 +134,15 @@ export default {
       setUser: "user/setUser"
     }),
     joinAction(planId) {
-      if (this.plan.joins.length < this.plan.join_limit) {
+      // if (this.plan.joins.length < this.plan.join_limit) {
         let formData = {
           user_id: this.currentUser.id,
           plan_id: planId
         }
         this.joinPlan(formData)
         return
-      }
-      alert('※定員が上限に達しているため、参加できません。')
+      // }
+      // alert('※定員が上限に達しているため、参加できません。')
     },
     unJoinAction(joins) {
       let obj = joins.find(ele => ele.user_id == this.currentUser.id)
@@ -148,6 +157,7 @@ export default {
   watch: {
     planDialog() {
       this.$emit("close")
+      this.$store.dispatch("errorMessage/clearMessages", null)
     }
   }
 }

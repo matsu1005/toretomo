@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :plans, only: %i[index show create update destroy]
       resources :users, only: %i[index show] 
       resources :joins, only: %i[create destroy] 
+      resource :relationships, only: %i[create destroy]
     end
   end
 end

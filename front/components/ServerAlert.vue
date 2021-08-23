@@ -6,7 +6,7 @@
       type="error"
       elevation="2"
       max-width=500
-      style="padding: 5px 16px">
+      style="margin: 0 15px 15px; padding: 5px 16px">
       <ul>
         <li v-for="(msg, index) in messages" :key="index"
           style="list-style: square;">
