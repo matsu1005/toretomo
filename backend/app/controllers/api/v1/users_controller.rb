@@ -3,7 +3,10 @@ module Api
     class UsersController < ApplicationController
       
       def show
-        @user = User.includes({plan: [:user, :joins ]}, {planjoin: [:join_users, :user ]}).find(params[:id])
+        @user = User.includes({plan: [:user, :joins ]}, 
+                              {planjoin: [:join_users, :user ]}, 
+                              {followings: [:followings]}, 
+                              {followers: [:followings]}).find(params[:id])
         render json: @user.as_json(include: [{
             plan: {
               include: [{
@@ -24,7 +27,21 @@ module Api
                   only: %w[id name icon]
                 }
               }]
-            }
+            },
+            followings: {
+              include: [{
+                followers: {
+                  only: %w[id]
+                },
+              }]
+            },
+            followers: {
+              include: [{
+                followers: {
+                  only: %w[id]
+                },
+              }]
+            },
           }
           ])
       end
