@@ -38,10 +38,9 @@
               md="4"
             >
               <v-menu
-                ref="menu"
                 v-model="menu"
                 :close-on-content-click="false"
-                :return-value.sync="editPlan.start_ymd"
+                :nudge-right="40"
                 transition="scale-transition"
                 offset-y
                 min-width="auto"
@@ -58,25 +57,8 @@
                 </template>
                 <v-date-picker
                   v-model="editPlan.start_ymd"
-                  no-title
-                  scrollable
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="menu = false"
-                  >
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.menu.save(editPlan.start_ymd)"
-                  >
-                    OK
-                  </v-btn>
-                </v-date-picker>
+                  @input="menu = false"
+                ></v-date-picker>
               </v-menu>
             </v-col>
             <v-col
@@ -88,6 +70,7 @@
                 v-model="editPlan.start_time"
                 label="開始時間"
                 type="time"
+                hint="右の時計のｱｲｺﾝをｸﾘｯｸ"
               ></v-text-field>
             </v-col>
             <v-col
