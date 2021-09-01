@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 import UserProfile from '~/components/mypage/UserProfile.vue'
 import MypageTabs from '~/components/mypage/MypageTabs.vue'
@@ -22,14 +22,11 @@ export default {
       currentUser: "currentUser/user",
     }),
   },
-  methods: {
-    ...mapActions ({
-      setUser: "user/setUser"
-    })
-  },
   created() {
-    this.setUser(this.$route.params.id)
+    this.$axios.get(`api/v1/users/${this.$route.params.id}`)
+    .then((response) => {
+      this.$store.commit('user/setUser', response.data, { root: true })
+    })
   }
-
 }
 </script>

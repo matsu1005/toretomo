@@ -1,20 +1,24 @@
 <template>
-  <v-list three-line>
-    <template v-for="(user, index) in users">
-      <v-list-item
-        :key="index"
+  <v-list three-line style="padding:0px">
+    <template >
+      <v-list-item 
+        v-for="user in users"
+        :key="user.id"
       >
         <nuxt-link 
           style="text-decoration: none;" 
           :to="{ path: `/users/${user.id}` }">
-          <v-list-item-avatar>
-            <v-img :src="user.icon.url"></v-img>
+          <v-list-item-avatar color="#445CB0">
+            <v-img :src="user.icon.url" v-if="user.icon.url"></v-img>
+            <v-icon v-else size="25" dark>
+              mdi-account-circle
+            </v-icon>
           </v-list-item-avatar>
         </nuxt-link>
 
         <v-list-item-content>
           <v-list-item-title v-html="user.name"></v-list-item-title>
-          <v-list-item-subtitle class="pr-5" v-if="user.profile!=='null'">
+          <v-list-item-subtitle class="pr-5" v-if="user.profile!=='null' && user.profile">
             {{user.profile | omittedText}}
           </v-list-item-subtitle>
           <v-list-item-subtitle class="pr-5" v-else>

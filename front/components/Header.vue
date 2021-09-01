@@ -7,7 +7,7 @@
   >
     <v-toolbar-title>
       <nuxt-link to="/" class="header-link">
-        <h2 class="app-title">toretomo</h2>
+        <h2 class="app-title" style="color:white;">toretomo</h2>
       </nuxt-link>
     </v-toolbar-title>
     <v-spacer />

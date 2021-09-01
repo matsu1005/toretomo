@@ -28,7 +28,7 @@
           <follow-btn :user='user'/>
           <v-spacer></v-spacer>
           <v-avatar
-            color="primary"
+            color="#445CB0"
             size="100"
             style="margin:0;"
             v-if="user.icon"
@@ -39,7 +39,7 @@
             </template>
             <template v-else>
               <v-img v-if="input_image !== null" :src="input_image" />
-              <v-icon v-else size="70">
+              <v-icon v-else dark size="70">
                 mdi-account-circle
               </v-icon>
             </template>

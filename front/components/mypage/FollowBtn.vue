@@ -30,10 +30,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return { 
-    }
-  },
   computed: {
     ...mapGetters({
       currentUser: 'currentUser/user',
@@ -44,9 +40,6 @@ export default {
         return this.user.followers.find(ele => ele.id === this.currentUser.id)
       }
     }
-  },
-  created() {
-    this.setUser(this.$route.params.id)
   },
   methods: {
     ...mapActions ({
