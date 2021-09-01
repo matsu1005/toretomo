@@ -31,14 +31,15 @@ module Api
 
       def update
         @plan = Plan.find(params[:id])
-        if @plan.join_limit <= params[:join_limit].to_i
+        @join = Join.where(plan_id: params[:id])
+        if @join.count <= params[:join_limit].to_i
           if @plan.update(plan_params)
             render json: @post
           else
             render status: 400, json: {errors: {status: 400, error: @plan.errors.full_messages}}
           end
         else
-          render status: 400, json: {errors: {status: 400, error: ["すでに参加者がいるため、参加人数が変更できません。"]}}
+          render status: 400, json: {errors: {status: 400, error: ["すでに参加者がいるため、参加人数を減らせません。"]}}
         end
       end
 

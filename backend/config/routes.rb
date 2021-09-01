@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[index show] 
       resources :joins, only: %i[create destroy] 
       resource :relationships, only: %i[create destroy]
+      get 'health_check', to: 'health_check#index'
     end
   end
 end

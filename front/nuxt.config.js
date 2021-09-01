@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - front',
-    title: 'front',
+    // titleTemplate: '%s - front',
+    title: 'toretomo',
     htmlAttrs: {
       lang: 'en'
     },
@@ -48,20 +48,13 @@ export default {
     '@nuxtjs/auth'
   ],
 
-  proxy: {
-    "/api": {
-      target: "http://backend:3000",
-      pathRewrite: {
-        '^/api': '/api'
-      }
-    }
+  axios: {
+    baseURL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://toretomo-api.com'
+      : 'http://localhost:3000'
   },
 
-  axios: {
-    proxy: true,
-    baseURL: 'http://localhost:3000',
-    browserBaseURL: 'http://localhost:3000'
-  },
   auth: {
     redirect: {
       login: 'users/login',
