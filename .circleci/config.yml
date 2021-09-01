@@ -1,4 +1,8 @@
 version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.15.3
+  aws-ecs: circleci/aws-ecs@1.2.0
+  aws-cli: circleci/aws-cli@0.1.16
 
 jobs:
   # buildするjob
@@ -48,3 +52,73 @@ workflows:
       - test:
           requires:
             - build
+      - aws-ecr/build-and-push-image:
+          name: 'build-and-push-back'
+          account-url: AWS_ECR_ACCOUNT_URL
+          region: AWS_REGION
+          repo: "toretomo-app-backend"
+          tag: "${CIRCLE_SHA1}"
+          path: './backend'
+          dockerfile: Dockerfile.prd
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
+      - aws-ecr/build-and-push-image:
+          name: 'build-and-push-front'
+          account-url: AWS_ECR_ACCOUNT_URL
+          region: AWS_REGION
+          repo: "toretomo-app-frontend"
+          tag: "${CIRCLE_SHA1}"
+          path: './front'
+          dockerfile: Dockerfile.prd
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
+      - aws-ecs/update-task-definition:
+          family: tt-db-migrate # rails db:migrate用タスク定義名
+          container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
+          aws-region: AWS_REGION
+          requires:
+            - build-and-push-back
+          filters:
+            branches:
+              only: main
+      - aws-ecs/run-task:
+          cluster: toretomo-cluster
+          task-definition: tt-db-migrate
+          subnet-ids:  subnet-00ae29aaaf6bb716d, subnet-0ec8c713a15a945aa
+          assign-public-ip: ENABLED
+          security-group-ids: '${MIGRATION_SECURITY_GROUP_ID}'
+          requires:
+            - aws-ecs/update-task-definition
+          filters:
+            branches:
+              only: main
+      - aws-ecs/deploy-service-update:
+            family: tt-backend-task
+            service-name: tt-backend-service
+            cluster-name: toretomo-cluster
+            container-image-name-updates: 'container=tt-back-container,tag=${CIRCLE_SHA1}'
+            requires:
+              - aws-ecs/run-task
+            filters:
+              branches:
+                only:
+                  - main
+      - aws-ecs/deploy-service-update:
+            family: tt-front-task
+            service-name: tt-front-service
+            cluster-name: toretomo-cluster
+            container-image-name-updates: 'container=tt-front-container,tag=${CIRCLE_SHA1}'
+            requires:
+              - build-and-push-front
+            filters:
+              branches:
+                only:
+                  - main
