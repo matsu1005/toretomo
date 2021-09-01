@@ -1,7 +1,6 @@
 FROM node:14.15.0-alpine
 
 ARG WORKDIR
-ARG CONTAINER_PORT
 ARG API_URL
 
 ENV HOME=/${WORKDIR} \
@@ -20,8 +19,13 @@ RUN apk update && \
     npm install -g n && \
     rm -rf /var/cache/apk/*
 
+# 追加
 RUN yarn install
 
-RUN yarn run build
 
-EXPOSE ${CONTAINER_PORT}
+RUN yarn run build
+# ここまで
+
+EXPOSE 80
+
+CMD ["yarn", "start"] 
