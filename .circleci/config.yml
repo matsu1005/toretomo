@@ -83,7 +83,7 @@ workflows:
       - aws-ecs/update-task-definition:
           family: tt-db-migrate # rails db:migrate用タスク定義名
           container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
-          region: AWS_REGION
+          aws-region: '${AWS_REGION}'
           requires:
             - build-and-push-back
           filters:
