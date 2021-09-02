@@ -21,7 +21,6 @@ export const actions = {
       .get(`/api/v1/users/${user.id}`)
       .then((response) => {
         commit('setCurrentUser', response.data)
-        console.log(response.data)
     })
   },
   clearCurrentUser( { commit } ) {
