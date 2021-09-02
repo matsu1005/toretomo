@@ -104,7 +104,7 @@ workflows:
             family: tt-backend-task
             service-name: tt-backend-service
             cluster-name: toretomo-cluster
-            container-image-name-updates: 'container=tt-back-container,tag=${CIRCLE_SHA1}'
+            container-image-name-updates: 'container=tt-backend-container,tag=${CIRCLE_SHA1}'
             requires:
               - aws-ecs/run-task
             filters:
