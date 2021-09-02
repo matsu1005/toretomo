@@ -52,6 +52,19 @@ module Api
         end
       end
 
+      def search
+        if params[:event] && params[:prec]
+          @plans = Plan.where(prefecture: params[:prec]).where(event_cls: params[:event])
+                              .all.includes(:user, :joins).order(created_at: :desc)          
+        elsif params[:event] || params[:prec]
+          @plans = Plan.where(prefecture: params[:prec]).or(Plan.where(event_cls: params[:event]))
+                              .all.includes(:user, :joins).order(created_at: :desc)
+        else
+          @plans = Plan.all.includes(:user, :joins)
+        end
+        render json: @plans.as_json(include: [{ user: { only: %w[icon name] }}, :joins])
+      end
+
       private
 
       def plan_params

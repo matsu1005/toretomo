@@ -69,7 +69,6 @@ export default {
         user_id: this.currentUser.id,
         follow_id: this.user.id,
       }
-      console.log(formData)
       await this.$axios.delete('/api/v1/relationships', {params: formData})
         .then((response) => {
           this.$store.commit("flashMessage/setMessage", "フォローを解除しました。", { root: true })
