@@ -3,7 +3,7 @@ module Api
     class PlansController < ApplicationController
 
       def index
-        @plans = Plan.all.includes(:user, :joins)
+        @plans = Plan.all.includes(:user, :joins).order(created_at: :desc)
         render json: @plans.as_json(include: [{ user: { only: %w[icon name] }}, :joins])
       end
 
@@ -60,7 +60,7 @@ module Api
           @plans = Plan.where(prefecture: params[:prec]).or(Plan.where(event_cls: params[:event]))
                               .all.includes(:user, :joins).order(created_at: :desc)
         else
-          @plans = Plan.all.includes(:user, :joins)
+          @plans = Plan.all.includes(:user, :joins).order(created_at: :desc)
         end
         render json: @plans.as_json(include: [{ user: { only: %w[icon name] }}, :joins])
       end
