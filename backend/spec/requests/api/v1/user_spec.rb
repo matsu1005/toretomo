@@ -9,7 +9,7 @@ RSpec.describe User, type: :request do
     it '特定ユーザー取得' do
       get "/api/v1/users/#{@user.id}"
       json = JSON.parse(response.body)
-      expect(json['email']).to eq(@user.email)
+      expect(json['name']).to eq(@user.name)
     end
 
   end

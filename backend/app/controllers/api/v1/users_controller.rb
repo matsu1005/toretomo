@@ -3,7 +3,8 @@ module Api
     class UsersController < ApplicationController
       
       def show
-        @user = User.includes({plan: [:user, :joins ]}, 
+        @user = User.select('id, name, profile, birth_year, birth_month, birth_day, icon, sex')
+                    .includes({plan: [:user, :joins ]}, 
                               {planjoin: [:join_users, :user ]}, 
                               {followings: [:followings]}, 
                               {followers: [:followings]}).find(params[:id])
@@ -29,6 +30,7 @@ module Api
               }]
             },
             followings: {
+              only: %w[id name profile icon],
               include: [{
                 followers: {
                   only: %w[id]
@@ -36,6 +38,7 @@ module Api
               }]
             },
             followers: {
+              only: %w[id name profile icon],
               include: [{
                 followers: {
                   only: %w[id]

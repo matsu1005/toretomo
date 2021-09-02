@@ -42,6 +42,7 @@ export default {
   props: {
     users: {
       type: Array,
+      default: () => ([]),
       required: true,
     },
   },

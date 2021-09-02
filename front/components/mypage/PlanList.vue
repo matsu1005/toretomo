@@ -100,6 +100,7 @@ export default {
   props: {
     plans: {
       type: Array,
+      default: () => ([]),
       required: true,
     },
   },

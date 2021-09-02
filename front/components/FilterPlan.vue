@@ -5,10 +5,10 @@
       <template v-for="item in events">
         <v-chip
           class="select-chips"
-          v-if="!selected.includes(item)"
+          v-if="!eventSelected.includes(item)"
           :key="item.text"
           :disabled="loading"
-          @click="selected.push(item)"
+          @click="eventSelected.push(item)"
         >
           <v-icon
             :disabled="loading"
@@ -21,10 +21,10 @@
       <template v-for="prec in prefectures">
         <v-chip
           class="select-chips"
-          v-if="!selected.includes(prec)"
+          v-if="!precSelected.includes(prec)"
           :key="prec.text"
           :disabled="loading"
-          @click="selected.push(prec)"
+          @click="precSelected.push(prec)"
         >
           <v-icon
             :disabled="loading"
@@ -36,7 +36,7 @@
     </v-list>
     <h4>↓以下の条件で絞り込み↓</h4> 
     <template
-      v-for="(selection, i) in selections"
+      v-for="(selection, i) in eventSelections"
     >
       <v-chip
         class="select-chips"
@@ -44,7 +44,27 @@
         :disabled="loading"
         close
         outlined
-        @click:close="selected.splice(i, 1)"
+        @click:close="eventSelected.splice(i, 1)"
+        :key="selection.text"
+      >
+        <v-icon
+          left
+          v-text="selection.icon"
+        ></v-icon>
+        {{ selection.text }}
+      </v-chip>
+    </template> 
+    <br>
+    <template
+      v-for="(selection, i) in precSelections"
+    >
+      <v-chip
+        class="select-chips"
+        color="green"
+        :disabled="loading"
+        close
+        outlined
+        @click:close="precSelected.splice(i, 1)"
         :key="selection.text"
       >
         <v-icon
@@ -116,25 +136,42 @@
         },
       ],
       loading: false,
-      search: '',
-      selected: [],
+      eventSelected: [],
+      precSelected: [],
+      eventTags: [],
+      precTags: []
     }),
     computed: {
       allSelected () {
-        return this.selected.length === this.events.length
+        return this.precSelected.length + this.eventSelected.length 
+                === this.prefectures.length + this.events.length
       },
-      selections () {
-        const selections = []
-        for (const selection of this.selected) {
-          selections.push(selection)
+      eventSelections () {
+        const eventSelections = []
+        this.eventTags = []
+        for (const selection of this.eventSelected) {
+          eventSelections.push(selection)
+          this.eventTags.push(selection.text)
         }
-        return selections
+        return eventSelections
       },
+      precSelections () {
+        const precSelections = []
+        this.precTags = []
+        for (const selection of this.precSelected) {
+          precSelections.push(selection)
+          this.precTags.push(selection.text)
+        }
+        return precSelections
+      }
     },
     watch: {
-      selected () {
-        this.search = ''
+      precSelections () {
+        this.searchTag()
       },
+      eventSelections () {
+        this.searchTag()
+      }
     },
     methods: {
       next () {
@@ -145,6 +182,22 @@
           this.loading = false
         }, 2000)
       },
+      async searchTag() {
+        console.log(this.tags)
+        await this.$axios.$get(
+          '/api/v1/plans/search', {
+          params: 
+            {event: this.eventTags, prec: this.precTags}
+          }
+        )
+        .then((response) => {
+          this.$store.commit("plan/setPlans", response)
+          return response
+        },
+        (error) => {
+          return error
+        })
+      }
     },
   }
 </script>
