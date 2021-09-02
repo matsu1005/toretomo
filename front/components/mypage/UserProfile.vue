@@ -1,13 +1,13 @@
 <template>
   <v-form ref="form">
   <div>
-    <v-row justify="center" v-show="show">
+    <v-row justify="center" v-show="show || user.name =='ゲストユーザー1'">
       <p cols="12" class="mt-3 display-1">
         {{user.name}}さんのマイページ
       </p>
     </v-row>
     <server-alert/> 
-    <v-row justify="center" v-show="!show">
+    <v-row justify="center" v-show="!show && user.name !=='ゲストユーザー1'">
       <v-col
         cols="6"
         sm="3"
@@ -46,7 +46,7 @@
           </v-avatar>
           <v-file-input
             v-model="editImage"
-            v-show="!show"
+            v-show="!show && user.name !== 'ゲストユーザー1'"
             accept="image/png, image/jpeg, image/bmp"
             prepend-icon="mdi-image"
             label="画像を選択してください"
