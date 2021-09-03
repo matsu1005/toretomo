@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_20_034009) do
+ActiveRecord::Schema.define(version: 2021_09_03_033857) do
 
   create_table "joins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -20,6 +20,18 @@ ActiveRecord::Schema.define(version: 2021_08_20_034009) do
     t.index ["plan_id"], name: "index_joins_on_plan_id"
     t.index ["user_id", "plan_id"], name: "index_joins_on_user_id_and_plan_id", unique: true
     t.index ["user_id"], name: "index_joins_on_user_id"
+  end
+
+  create_table "messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "plan_id", null: false
+    t.text "content"
+    t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["plan_id"], name: "index_messages_on_plan_id"
+    t.index ["user_id", "plan_id"], name: "index_messages_on_user_id_and_plan_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "plans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -81,6 +93,8 @@ ActiveRecord::Schema.define(version: 2021_08_20_034009) do
 
   add_foreign_key "joins", "plans"
   add_foreign_key "joins", "users"
+  add_foreign_key "messages", "plans"
+  add_foreign_key "messages", "users"
   add_foreign_key "plans", "users"
   add_foreign_key "relationships", "users"
   add_foreign_key "relationships", "users", column: "follow_id"
