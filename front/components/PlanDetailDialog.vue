@@ -75,6 +75,9 @@
       <v-card-text class="mt-3" style="white-space:pre-line; word-wrap:break-word;">
         <strong>{{plan.title}}</strong>
         <v-spacer class="mt-5"></v-spacer>
+        <nuxt-link :to="{ path: `/plans/${plan.id}` }">
+        <p class="link-line">詳細ページへ移動する（参加者の確認やトークができるよ）</p>
+        </nuxt-link>
         <p>
           <v-icon color="orange">mdi-calendar</v-icon>
           開催日時 : <strong>{{$dayjs(plan.start_ymd).format('MM月DD日')}} {{$dayjs(plan.start_time).format('HH:mm')}}</strong>
@@ -162,3 +165,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.link-line {
+  color:#0000cd; 
+  display:inline-block; 
+  padding-bottom:5px
+}
+</style>
