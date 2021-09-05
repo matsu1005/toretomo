@@ -15,4 +15,6 @@ class Plan < ApplicationRecord
   has_many :joins, dependent: :destroy
   has_many :join_users, through: :joins, source: :user
 
+  has_many :message, dependent: :destroy
+
 end

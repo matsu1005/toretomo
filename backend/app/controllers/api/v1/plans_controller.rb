@@ -8,16 +8,21 @@ module Api
       end
 
       def show 
-        @plan = Plan.includes(:user, :joins).find(params[:id])
+        @plan = Plan.includes(:user, {joins: [:user]}).find(params[:id])
         render json: @plan.as_json(include: [{
             user: {
               only: %w[icon name] 
               },
             joins: {
-               only: %w[id user_id] 
-              }
-            }]
-          )
+              only: %w[id user_id],
+              include: [{
+                user: {
+                  only: %w[id name icon]
+                }
+              }]
+            },
+          }]
+        )
       end
       
       def create
