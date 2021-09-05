@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy, inverse_of: :follow
   has_many :followers, through: :reverses_of_relationship, source: :user
 
+  has_many :message, dependent: :destroy
+
   def follow(other_user)
     self.relationships.find_or_create_by(follow_id: other_user.id) unless self == other_user
   end
