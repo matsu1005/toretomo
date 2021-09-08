@@ -3,12 +3,24 @@ module Api
     class PlansController < ApplicationController
 
       def index
-        @plans = Plan.all.includes(:user, :joins).order(created_at: :desc)
-        render json: @plans.as_json(include: [{ user: { only: %w[icon name] }}, :joins])
+        @plans = Plan.all.includes(:user, :joins, :interests).order(created_at: :desc)
+        render json: @plans.as_json(include: [
+            { 
+              user: {
+                only: %w[icon name] 
+                }
+            }, 
+            :joins, 
+            {
+              interests: {
+                only: [:user_id]
+                }
+            }
+          ])
       end
 
       def show 
-        @plan = Plan.includes(:user, {joins: [:user]}).find(params[:id])
+        @plan = Plan.includes(:user, {joins: [:user]}, :interests).find(params[:id])
         render json: @plan.as_json(include: [{
             user: {
               only: %w[icon name] 
@@ -21,6 +33,9 @@ module Api
                 }
               }]
             },
+            interests: {
+
+            }
           }]
         )
       end
@@ -60,14 +75,26 @@ module Api
       def search
         if params[:event] && params[:prec]
           @plans = Plan.where(prefecture: params[:prec]).where(event_cls: params[:event])
-                              .all.includes(:user, :joins).order(created_at: :desc)          
+                              .all.includes(:user, :joins, :interests).order(created_at: :desc)          
         elsif params[:event] || params[:prec]
           @plans = Plan.where(prefecture: params[:prec]).or(Plan.where(event_cls: params[:event]))
-                              .all.includes(:user, :joins).order(created_at: :desc)
+                              .all.includes(:user, :joins, :interests).order(created_at: :desc)
         else
-          @plans = Plan.all.includes(:user, :joins).order(created_at: :desc)
-        end
-        render json: @plans.as_json(include: [{ user: { only: %w[icon name] }}, :joins])
+          @plans = Plan.all.includes(:user, :joins, :interests).order(created_at: :desc)
+        end        
+        render json: @plans.as_json(include: [
+          { 
+            user: {
+              only: %w[icon name] 
+              }
+          }, 
+          :joins, 
+          {
+            interests: {
+              only: [:user_id]
+              }
+          }
+        ])
       end
 
       private

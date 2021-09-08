@@ -17,4 +17,8 @@ class Plan < ApplicationRecord
 
   has_many :message, dependent: :destroy
 
+  has_many :interests, dependent: :destroy
+  has_many :interested_users, through: :interests, source: :user
+
+
 end
