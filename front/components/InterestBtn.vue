@@ -3,7 +3,7 @@
     <v-btn
       v-if="isInterested"
       :disabled="!$auth.loggedIn"
-      color="success"
+      color="#32cd32"
       small
       @click="notInterested(plan.id)"
       >
