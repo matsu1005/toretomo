@@ -20,10 +20,8 @@
               >
                 {{plan.train_strength}}
               </v-chip>
+              <interest-btn :plan="plan" v-if="plan.user_id !== currentUser.id" />
             </div>
-            <p class="text-h4 text--primary">
-              
-            </p>
             <div class="card-title">
             <nuxt-link 
               style="text-decoration: none;" 
@@ -78,10 +76,12 @@
 <script>
 import { mapGetters, mapActions} from 'vuex'
 import PlanDetailDialog from '~/components/PlanDetailDialog'
+import InterestBtn from '~/components/InterestBtn'
 
 export default {
   components: {
-    PlanDetailDialog
+    PlanDetailDialog,
+    InterestBtn
   },
   data() {
     return {
@@ -93,6 +93,7 @@ export default {
     ...mapGetters({
       plans: 'plan/plans',
       clickPlan: 'plan/plan',
+      currentUser: "currentUser/user",
     })
   },
   created() {
@@ -133,7 +134,7 @@ export default {
 
 .card-title {
   display: flex; 
-  margin-bottom: 10px;
+  margin: 10px 0;
   color: black;
   font-size: 16px;
 }
