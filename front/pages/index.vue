@@ -1,17 +1,17 @@
 <template>
   <div>
-    <add-plan-btn/>
-    <header-carousel/>
-    <filter-plan/>
-    <plan-card/>
+    <add-plan-btn />
+    <header-carousel />
+    <filter-plan />
+    <plan-card />
   </div>
 </template>
 
 <script>
-import HeaderCarousel from '~/components/HeaderCarousel.vue'
-import FilterPlan from '~/components/FilterPlan.vue'
-import PlanCard from '~/components/PlanCard.vue'
-import AddPlanBtn from '~/components/AddPlanBtn.vue'
+import HeaderCarousel from "~/components/HeaderCarousel.vue"
+import FilterPlan from "~/components/FilterPlan.vue"
+import PlanCard from "~/components/PlanCard.vue"
+import AddPlanBtn from "~/components/AddPlanBtn.vue"
 
 export default {
   components: {
@@ -19,6 +19,6 @@ export default {
     FilterPlan,
     PlanCard,
     AddPlanBtn,
-  }
+  },
 }
 </script>

@@ -1,17 +1,17 @@
 <template>
   <v-container v-if="plan.user" style="max-width: 900px">
-    <plan-info :plan="plan"/>
-    <join-user-list :joins="plan.joins"/>
-    <message-area :plan="plan"/>
-  </v-container>   
+    <plan-info :plan="plan" />
+    <join-user-list :joins="plan.joins" />
+    <message-area :plan="plan" />
+  </v-container>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex"
 
-import PlanInfo from '~/components/plans/PlanInfo.vue'
-import JoinUserList from '~/components/plans/JoinUserList.vue'
-import MessageArea from '~/components/plans/MessageArea.vue'
+import PlanInfo from "~/components/plans/PlanInfo.vue"
+import JoinUserList from "~/components/plans/JoinUserList.vue"
+import MessageArea from "~/components/plans/MessageArea.vue"
 
 export default {
   components: {
@@ -21,13 +21,13 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   computed: {
     ...mapGetters({
-      plan: "plan/plan"
-    })
+      plan: "plan/plan",
+    }),
   },
   methods: {
     ...mapActions({
@@ -37,6 +37,6 @@ export default {
   created() {
     this.getPlan(this.$route.params.id)
     this.loading = true
-  }
+  },
 }
 </script>

@@ -1,15 +1,15 @@
 export const state = () => ({
-  messages: {}
+  messages: {},
 })
 
 export const getters = {
-  messages: (state) => state.messages
+  messages: (state) => state.messages,
 }
 
 export const mutations = {
   setMessages(state, messages) {
     state.messages = messages
-  }
+  },
 }
 
 export const actions = {
@@ -17,7 +17,7 @@ export const actions = {
     await this.$axios
       .get(`api/v1/plans/${paramsId}/messages`)
       .then((response) => {
-        commit('setMessages', response.data)
+        commit("setMessages", response.data)
       })
       .catch((error) => {
         console.log(error)
@@ -34,16 +34,19 @@ export const actions = {
     }
     await this.$axios
       .post(`api/v1/plans/${message.plan_id}/messages`, form, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((response) => {
-        this.$axios.get(`api/v1/plans/${message.plan_id}/messages`)
+        this.$axios
+          .get(`api/v1/plans/${message.plan_id}/messages`)
           .then((response) => {
-            commit('setMessages', response.data)
+            commit("setMessages", response.data)
+          })
+        commit("flashMessage/setMessage", "投稿が成功しました。", {
+          root: true,
         })
-        commit("flashMessage/setMessage", "投稿が成功しました。", { root: true })
         commit("flashMessage/setType", "success", { root: true })
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
@@ -51,7 +54,9 @@ export const actions = {
         }, 2000)
       })
       .catch((error) => {
-        commit("flashMessage/setMessage", "投稿が失敗しました。", { root: true })
+        commit("flashMessage/setMessage", "投稿が失敗しました。", {
+          root: true,
+        })
         commit("flashMessage/setType", "error", { root: true })
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
@@ -62,13 +67,16 @@ export const actions = {
   },
   async destroyMessage({ commit }, params) {
     await this.$axios
-      .delete(`api/v1/plans/${params.plan_id}/messages`, {params: params})
+      .delete(`api/v1/plans/${params.plan_id}/messages`, { params: params })
       .then((response) => {
-        this.$axios.get(`api/v1/plans/${params.plan_id}/messages`)
+        this.$axios
+          .get(`api/v1/plans/${params.plan_id}/messages`)
           .then((response) => {
-            commit('setMessages', response.data)
+            commit("setMessages", response.data)
+          })
+        commit("flashMessage/setMessage", "メッセージを削除しました。", {
+          root: true,
         })
-        commit("flashMessage/setMessage", "メッセージを削除しました。", { root: true })
         commit("flashMessage/setType", "success", { root: true })
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
@@ -76,7 +84,9 @@ export const actions = {
         }, 2000)
       })
       .catch((error) => {
-        commit("flashMessage/setMessage", "メッセージの削除に失敗しました。", { root: true })
+        commit("flashMessage/setMessage", "メッセージの削除に失敗しました。", {
+          root: true,
+        })
         commit("flashMessage/setType", "error", { root: true })
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
@@ -84,5 +94,5 @@ export const actions = {
         }, 3000)
         console.log(error)
       })
-  }
+  },
 }

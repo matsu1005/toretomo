@@ -1,87 +1,84 @@
 <template>
   <div>
-    <h2>
-      参加したいイベントを探そう！
-    </h2>
+    <h2>参加したいイベントを探そう！</h2>
     <v-row>
       <v-col v-for="plan in plans" :key="plan.id">
-        <v-card
-          class="mx-auto card-content"
-          width="300"
-          v-if="plan.user"
-        >
+        <v-card v-if="plan.user" class="mx-auto card-content" width="300">
           <v-card-text>
             <div>
               {{ plan.event_cls }}
-              <v-chip 
-                color="primary"
-                outlined
-                style="margin-left: 15px"
-              >
-                {{plan.train_strength}}
+              <v-chip color="primary" outlined style="margin-left: 15px">
+                {{ plan.train_strength }}
               </v-chip>
-              <interest-btn :plan="plan" v-if="plan.user_id !== currentUser.id" />
+              <interest-btn
+                v-if="plan.user_id !== currentUser.id"
+                :plan="plan"
+              />
             </div>
             <div class="card-title">
-            <nuxt-link 
-              style="text-decoration: none;" 
-              :to="{ path: `/users/${plan.user_id}` }">
-              <v-avatar v-if="plan.user.icon.url">
-                <v-img
-                  alt="user"
-                  :src="plan.user.icon.url"
-                />
-              </v-avatar >
-              <v-avatar v-else color="#445CB0">
-                <v-icon dark>
-                  mdi-account-circle
-                </v-icon>
-              </v-avatar>
-            </nuxt-link>
-              <div class="title-text">{{plan.title}}</div>
+              <nuxt-link
+                style="text-decoration: none"
+                :to="{ path: `/users/${plan.user_id}` }"
+              >
+                <v-avatar v-if="plan.user.icon.url">
+                  <v-img alt="user" :src="plan.user.icon.url" />
+                </v-avatar>
+                <v-avatar v-else color="#445CB0">
+                  <v-icon dark> mdi-account-circle </v-icon>
+                </v-avatar>
+              </nuxt-link>
+              <div class="title-text">{{ plan.title }}</div>
             </div>
             <p>
               <v-icon>mdi-map-marker</v-icon>
-              {{plan.prefecture}} {{plan.place}}
+              {{ plan.prefecture }} {{ plan.place }}
             </p>
             <div class="text--primary">
-              <v-alert 
-                text 
+              <v-alert
+                text
                 dense
-                color="deep-orange" 
+                color="deep-orange"
                 outlined
-                style="font-size:14px; margin-bottom: 0;">
-                開催日時:<strong>{{$dayjs(plan.start_ymd).format('MM月DD日')}} {{$dayjs(plan.start_time).format('HH:mm')}}</strong><br>
-                (所要時間:<strong>{{plan.duration}}時間</strong>)</v-alert>
+                style="font-size: 14px; margin-bottom: 0"
+              >
+                開催日時:<strong
+                  >{{ $dayjs(plan.start_ymd).format("MM月DD日") }}
+                  {{ $dayjs(plan.start_time).format("HH:mm") }}</strong
+                ><br />
+                (所要時間:<strong>{{ plan.duration }}時間</strong>)</v-alert
+              >
             </div>
           </v-card-text>
           <v-card-actions>
             <template>
-              <v-btn
-                color="primary"
-                @click.stop="getDetailPlan(plan)"
-              >
+              <v-btn color="primary" @click.stop="getDetailPlan(plan)">
                 詳細情報
               </v-btn>
             </template>
-            <div style="margin: 0 0 0 auto;">定員: [ {{plan.joins.length}} / {{plan.join_limit}} ]</div>
+            <div style="margin: 0 0 0 auto">
+              定員: [ {{ plan.joins.length }} / {{ plan.join_limit }} ]
+            </div>
           </v-card-actions>
         </v-card>
       </v-col>
-      <plan-detail-dialog v-if="planDialog" :plan="clickPlan" @close="closeDialog"/>
+      <plan-detail-dialog
+        v-if="planDialog"
+        :plan="clickPlan"
+        @close="closeDialog"
+      />
     </v-row>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions} from 'vuex'
-import PlanDetailDialog from '~/components/PlanDetailDialog'
-import InterestBtn from '~/components/InterestBtn'
+import { mapGetters, mapActions } from "vuex"
+import PlanDetailDialog from "~/components/PlanDetailDialog"
+import InterestBtn from "~/components/InterestBtn"
 
 export default {
   components: {
     PlanDetailDialog,
-    InterestBtn
+    InterestBtn,
   },
   data() {
     return {
@@ -91,10 +88,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      plans: 'plan/plans',
-      clickPlan: 'plan/plan',
+      plans: "plan/plans",
+      clickPlan: "plan/plan",
       currentUser: "currentUser/user",
-    })
+    }),
   },
   created() {
     this.getPlans().then(() => {
@@ -103,9 +100,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPlans: 'plan/getPlans',
-      setUser: 'user/setUser',
-      getPlan: "plan/getPlan"
+      getPlans: "plan/getPlans",
+      setUser: "user/setUser",
+      getPlan: "plan/getPlan",
     }),
     getDetailPlan(plan) {
       this.getPlan(plan.id)
@@ -115,8 +112,8 @@ export default {
     },
     closeDialog() {
       this.planDialog = false
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -133,7 +130,7 @@ export default {
 }
 
 .card-title {
-  display: flex; 
+  display: flex;
   margin: 10px 0;
   color: black;
   font-size: 16px;
@@ -144,9 +141,9 @@ export default {
 }
 
 .title-text {
-  height: 45px; 
-  width: 205px; 
-  overflow: hidden; 
+  height: 45px;
+  width: 205px;
+  overflow: hidden;
   position: relative;
 }
 </style>

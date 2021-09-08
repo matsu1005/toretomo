@@ -1,15 +1,15 @@
 export const state = () => ({
-  user: {}
+  user: {},
 })
 
 export const getters = {
-  user: (state) => state.user
+  user: (state) => state.user,
 }
 
 export const mutations = {
   setUser(state, user) {
     state.user = user
-  }
+  },
 }
 
 export const actions = {
@@ -17,10 +17,10 @@ export const actions = {
     await this.$axios
       .get(`api/v1/users/${paramsId}`)
       .then((response) => {
-        commit('setUser', response.data)
+        commit("setUser", response.data)
       })
       .catch((error) => {
         console.log(error)
       })
-  }
+  },
 }

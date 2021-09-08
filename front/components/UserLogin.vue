@@ -1,25 +1,23 @@
 <template>
   <div>
     <v-card class="mx-auto" max-width="600">
-      <v-form ref="form"  lazy-validation>
+      <v-form ref="form" lazy-validation>
         <v-container>
-          <v-btn icon large 
-          @click="loginDialog(false), clearMessages()"
-          style="position: fixed">
+          <v-btn
+            icon
+            large
+            style="position: fixed"
+            @click="loginDialog(false), clearMessages()"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-row justify="center">
-            <p cols="12" class="mt-3 display-1 grey--text">
-              ログイン
-            </p>
+            <p cols="12" class="mt-3 display-1 grey--text">ログイン</p>
           </v-row>
-          <server-alert/> 
+          <server-alert />
           <v-row justify="center">
             <v-col cols="12" md="10" sm="10">
-              <v-text-field
-                v-model="user.email"
-                label="Eメールアドレス"
-              />
+              <v-text-field v-model="user.email" label="Eメールアドレス" />
               <p class="caption mb-0" />
             </v-col>
           </v-row>
@@ -29,7 +27,7 @@
                 v-model="user.password"
                 type="password"
                 label="パスワード"
-                placeholder=''
+                placeholder=""
               />
             </v-col>
           </v-row>
@@ -51,50 +49,50 @@
 </template>
 
 <script>
-import { mapActions　} from "vuex" 
-import ServerAlert from '~/components/ServerAlert.vue'
+import { mapActions } from "vuex"
+import ServerAlert from "~/components/ServerAlert.vue"
 
 export default {
   components: {
-    ServerAlert
+    ServerAlert,
   },
-  data () {
+  data() {
     return {
       user: {
-        password: '',
-        email: ''
-      }
+        password: "",
+        email: "",
+      },
     }
   },
   methods: {
-    ...mapActions ({
+    ...mapActions({
       loginDialog: "modal/loginUser",
       clearMessages: "errorMessage/clearMessages",
-      setCurrentUser: "currentUser/setCurrentUser"
+      setCurrentUser: "currentUser/setCurrentUser",
     }),
-    async loginWithAuthModule () {
-      await this.$auth.loginWith('local', {
-        data: this.user
-      })
-      .then((response) => {
-        console.log(response)
-        this.loginDialog(false)
-        this.setCurrentUser(response.data.data)
-        this.clearMessages()
-        this.$store.dispatch(
-          "flashMessage/showMessage",
-          {
-            message: "ログインしました",
-            type: "success",
-            status: true,
+    async loginWithAuthModule() {
+      await this.$auth
+        .loginWith("local", {
+          data: this.user,
+        })
+        .then(
+          (response) => {
+            console.log(response)
+            this.loginDialog(false)
+            this.setCurrentUser(response.data.data)
+            this.clearMessages()
+            this.$store.dispatch("flashMessage/showMessage", {
+              message: "ログインしました",
+              type: "success",
+              status: true,
+            })
+            return response
+          },
+          (error) => {
+            return error
           }
         )
-        return response
-      },
-      (error) => {
-        return error
-      })
-    }
-  }
+    },
+  },
 }
 </script>

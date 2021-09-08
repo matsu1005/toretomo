@@ -1,5 +1,5 @@
 export const state = () => ({
-  user: {}
+  user: {},
 })
 
 export const getters = {
@@ -12,18 +12,16 @@ export const mutations = {
   },
   clearCurrentUser(state) {
     state.user = {}
-  }
+  },
 }
 
 export const actions = {
-  setCurrentUser( { commit }, user) {
-    this.$axios
-      .get(`/api/v1/users/${user.id}`)
-      .then((response) => {
-        commit('setCurrentUser', response.data)
+  setCurrentUser({ commit }, user) {
+    this.$axios.get(`/api/v1/users/${user.id}`).then((response) => {
+      commit("setCurrentUser", response.data)
     })
   },
-  clearCurrentUser( { commit } ) {
-    commit('clearCurrentUser')
-  }
+  clearCurrentUser({ commit }) {
+    commit("clearCurrentUser")
+  },
 }
