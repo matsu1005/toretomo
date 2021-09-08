@@ -7,7 +7,8 @@ module Api
                     .includes({plan: [:user, :joins ]}, 
                               {planjoin: [:join_users, :user ]}, 
                               {followings: [:followings]}, 
-                              {followers: [:followings]}).find(params[:id])
+                              {followers: [:followings]},
+                              {plan_interested: [:interests, :user, :joins]}).find(params[:id])
         render json: @user.as_json(include: [{
             plan: {
               include: [{
@@ -42,6 +43,19 @@ module Api
               include: [{
                 followers: {
                   only: %w[id]
+                },
+              }]
+            },
+            plan_interested: {
+              include: [{
+                interests: {
+                  only: %w[id user_id]
+                },
+                user: {
+                  only: %w[id name icon]
+                },
+                joins: {
+                  only: %w[id user_id]
                 },
               }]
             },

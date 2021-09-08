@@ -29,11 +29,7 @@
         <plan-list :plans="user.planjoin"/>
       </v-tab-item>
       <v-tab-item>
-        <v-row justify="center">
-          <p cols="12" class="mt-3 display-1 grey--text">
-            実装中
-          </p>
-        </v-row>
+        <plan-list :plans="user.plan_interested"/>
       </v-tab-item>
       <v-tab-item>
         <follow-list :users="user.followings"/>

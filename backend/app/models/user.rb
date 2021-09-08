@@ -22,6 +22,9 @@ class User < ActiveRecord::Base
 
   has_many :message, dependent: :destroy
 
+  has_many :interests, dependent: :destroy
+  has_many :plan_interested, through: :interests, source: :plan
+
   def follow(other_user)
     self.relationships.find_or_create_by(follow_id: other_user.id) unless self == other_user
   end

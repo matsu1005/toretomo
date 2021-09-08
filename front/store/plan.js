@@ -77,7 +77,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         commit("errorMessage/clearMessages", null, { root: true })
         commit("setSuccessPost", true)    
         this.$axios.get('api/v1/plans')
@@ -92,7 +92,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         commit("setSuccessPost", false)
         console.log(error)
       })
@@ -113,7 +113,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         commit("errorMessage/clearMessages", null, { root: true })
         commit("setSuccessPost", true)
         this.$axios
@@ -129,7 +129,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         commit("setSuccessPost", false)
         console.log(error)
       })
@@ -143,7 +143,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         this.$axios
           .get(`api/v1/users/${plan.user_id}`)
           .then((response) => {
@@ -156,7 +156,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         console.log(error)
       })
   },
@@ -169,7 +169,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         this.$axios.get(`api/v1/plans/${formData.plan_id}`)
           .then((response) => {
             commit('setPlan', response.data)
@@ -190,7 +190,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         console.log(error)
       })
   },
@@ -203,7 +203,7 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         this.$axios.get(`api/v1/plans/${formData.plan_id}`)
           .then((response) => {
             commit('setPlan', response.data)
@@ -224,8 +224,58 @@ export const actions = {
         commit("flashMessage/setStatus", true, { root: true })
         setTimeout(() => {
           commit("flashMessage/setStatus", false, { root: true })
-        }, 3000)
+        }, 2000)
         console.log(error)
       })
-  } 
+  },
+  async haveInterest({ commit }, formData) {
+    await this.$axios
+      .post("/api/v1/interests", formData)
+      .then((response) => {
+        commit("flashMessage/setMessage", "「気になる」に追加しました。", { root: true })
+        commit("flashMessage/setType", "success", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 2000)
+        this.$axios.get('api/v1/plans')
+          .then((response) => {
+            commit('setPlans', response.data)
+          })
+      })
+      .catch((error) => {
+        commit("flashMessage/setMessage", "処理が失敗しました。", { root: true })
+        commit("flashMessage/setType", "error", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 2000)
+        console.log(error)
+      })
+  },
+  async notInterest({ commit }, formData) {
+    await this.$axios
+      .$delete("/api/v1/interests", {params: formData})
+      .then((response) => {
+        commit("flashMessage/setMessage", "「気になる」から外ししました。", { root: true })
+        commit("flashMessage/setType", "success", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 2000)
+        this.$axios.get('api/v1/plans')
+          .then((response) => {
+            commit('setPlans', response.data)
+          })
+      })
+      .catch((error) => {
+        commit("flashMessage/setMessage", "処理が失敗しました。", { root: true })
+        commit("flashMessage/setType", "error", { root: true })
+        commit("flashMessage/setStatus", true, { root: true })
+        setTimeout(() => {
+          commit("flashMessage/setStatus", false, { root: true })
+        }, 2000)
+        console.log(error)
+      })
+  }
 }
