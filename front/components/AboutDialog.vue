@@ -69,7 +69,7 @@
           ></v-img>
         </v-card-text>
         <v-card-title cols="12" class="ma-5 display-1"
-          ><strong>Lets's training ！！</strong></v-card-title
+          ><strong>Let's training ！！</strong></v-card-title
         >
       </v-row>
     </v-card>
