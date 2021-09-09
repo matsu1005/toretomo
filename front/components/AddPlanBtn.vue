@@ -10,26 +10,26 @@
       color="blue-grey"
       @click.stop="openDialog()"
     >
-      <v-icon dark>
-        mdi-pencil
-      </v-icon>
-      投稿</v-btn>
-    <v-dialog
-      v-model="planDialog"
-      persistent
-      max-width="600px"
+      <v-icon dark> mdi-pencil </v-icon>
+      投稿</v-btn
     >
+    <v-dialog v-model="planDialog" persistent max-width="600px">
       <v-card>
-        <v-btn icon large 
-        class="mt-3"
-        @click="openPlanDialog(false), clearMessages()"
-        style="position: fixed">
+        <v-btn
+          icon
+          large
+          class="mt-3"
+          style="position: fixed"
+          @click="openPlanDialog(false), clearMessages()"
+        >
           <v-icon>mdi-close</v-icon>
-        </v-btn>  
+        </v-btn>
         <v-row justify="center">
-          <v-card-title class="mt-8 display-1">トレーニング プランの登録</v-card-title>
+          <v-card-title class="mt-8 display-1"
+            >トレーニング プランの登録</v-card-title
+          >
         </v-row>
-        <server-alert/> 
+        <server-alert />
         <v-card-text>
           <v-container>
             <v-row>
@@ -48,11 +48,7 @@
                   solo
                 ></v-textarea>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
+              <v-col cols="12" sm="6" md="4">
                 <v-menu
                   v-model="menu"
                   :close-on-content-click="false"
@@ -61,7 +57,7 @@
                   offset-y
                   min-width="auto"
                 >
-                  <template v-slot:activator="{ on, attrs }">
+                  <template #activator="{ on, attrs }">
                     <v-text-field
                       v-model="plan.start_ymd"
                       label="開催日"
@@ -77,11 +73,7 @@
                   ></v-date-picker>
                 </v-menu>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
+              <v-col cols="12" sm="6" md="4">
                 <v-text-field
                   v-model="plan.start_time"
                   label="開始時間"
@@ -89,11 +81,7 @@
                   hint="右の時計のｱｲｺﾝをｸﾘｯｸ"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
+              <v-col cols="12" sm="6" md="4">
                 <v-select
                   v-model="plan.duration"
                   label="所要時間"
@@ -102,11 +90,7 @@
                   required
                 ></v-select>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
+              <v-col cols="12" sm="6" md="4">
                 <v-select
                   v-model="plan.event_cls"
                   :items="['Swim', 'Bike', 'Run']"
@@ -115,11 +99,7 @@
                   required
                 ></v-select>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
+              <v-col cols="12" sm="6" md="4">
                 <v-select
                   v-model="plan.train_strength"
                   :items="['fun', 'hard']"
@@ -127,21 +107,14 @@
                   required
                 ></v-select>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
+              <v-col cols="12" sm="6" md="4">
                 <v-text-field
                   v-model="plan.join_limit"
                   label="参加人数"
                   type="number"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="plan.place"
                   label="集合場所"
@@ -150,13 +123,19 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
+              <v-col cols="12" sm="6">
                 <v-select
                   v-model="plan.prefecture"
-                  :items="['東京都', '埼玉県', '神奈川県', '千葉県', '群馬県', '栃木県', '茨城県', '山梨県']"
+                  :items="[
+                    '東京都',
+                    '埼玉県',
+                    '神奈川県',
+                    '千葉県',
+                    '群馬県',
+                    '栃木県',
+                    '茨城県',
+                    '山梨県',
+                  ]"
                   label="エリア区分"
                   prepend-inner-icon="mdi-map-marker"
                   required
@@ -174,13 +153,7 @@
           >
             Close
           </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="postPlan()"
-          >
-            Save
-          </v-btn>
+          <v-btn color="blue darken-1" text @click="postPlan()"> Save </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -188,30 +161,32 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import ServerAlert from '~/components/ServerAlert.vue'
+import { mapActions, mapGetters } from "vuex"
+import ServerAlert from "~/components/ServerAlert.vue"
 
 export default {
   components: {
-    ServerAlert
+    ServerAlert,
   },
   data() {
     return {
       menu: false,
       plan: {
-        title: '',
-        detail: '',
-        start_ymd: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        start_time: '09:00:00',
-        duration: '1',
-        event_cls: '',
-        train_strength: 'fun',
-        place: '',
-        prefecture: '',
-        join_limit: '5',
-      }
+        title: "",
+        detail: "",
+        start_ymd: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substr(0, 10),
+        start_time: "09:00:00",
+        duration: "1",
+        event_cls: "",
+        train_strength: "fun",
+        place: "",
+        prefecture: "",
+        join_limit: "5",
+      },
     }
-  },  
+  },
   computed: {
     ...mapGetters({
       planDialog: "plan/planDialog",
@@ -219,14 +194,14 @@ export default {
     }),
   },
   methods: {
-    ...mapActions ({
+    ...mapActions({
       createPlan: "plan/createPlan",
       openPlanDialog: "plan/openPlanDialog",
       clearMessages: "errorMessage/clearMessages",
     }),
     postPlan() {
       let user_id = this.$store.state.currentUser.user.id
-      this.plan['user_id'] = user_id
+      this.plan["user_id"] = user_id
       this.createPlan(this.plan)
     },
     openDialog() {
@@ -235,28 +210,32 @@ export default {
         console.log(this.$store)
         return
       }
-      alert('投稿するにはログインする必要があります。')
-    }
+      alert("投稿するにはログインする必要があります。")
+    },
   },
   watch: {
-    successPost: function(newVal, oldVal) {
+    successPost: function (newVal, oldVal) {
       if (this.successPost) {
         this.plan = {
-          title: '',
-          detail: '',
-          start_ymd: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-          start_time: '09:00:00',
-          duration: '1',
-          event_cls: '',
-          train_strength: 'fun',
-          place: '',
-          prefecture: '',
-          join_limit: '5',
+          title: "",
+          detail: "",
+          start_ymd: new Date(
+            Date.now() - new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substr(0, 10),
+          start_time: "09:00:00",
+          duration: "1",
+          event_cls: "",
+          train_strength: "fun",
+          place: "",
+          prefecture: "",
+          join_limit: "5",
         }
         this.$store.commit("plan/setSuccessPost", false)
         return
       }
-    }
-  }
+    },
+  },
 }
 </script>

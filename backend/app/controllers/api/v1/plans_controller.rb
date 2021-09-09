@@ -45,7 +45,7 @@ module Api
         if @plan.save
           render json: @plan
         else 
-          render status: 400, json: {errors: {status: 400, error: @plan.errors.full_messages}}
+          render status: :bad_request, json: {errors: {status: 400, error: @plan.errors.full_messages}}
         end
       end
 
@@ -56,10 +56,10 @@ module Api
           if @plan.update(plan_params)
             render json: @post
           else
-            render status: 400, json: {errors: {status: 400, error: @plan.errors.full_messages}}
+            render status: :bad_request, json: {errors: {status: 400, error: @plan.errors.full_messages}}
           end
         else
-          render status: 400, json: {errors: {status: 400, error: ["すでに参加者がいるため、参加人数を減らせません。"]}}
+          render status: :bad_request, json: {errors: {status: 400, error: ["すでに参加者がいるため、参加人数を減らせません。"]}}
         end
       end
 
@@ -68,7 +68,7 @@ module Api
         if plan.destroy
           render json: plan
         else
-          render status: 400, json: {errors: {status: 400, error: @plan.errors.full_messages}}
+          render status: :bad_request, json: {errors: {status: 400, error: @plan.errors.full_messages}}
         end
       end
 

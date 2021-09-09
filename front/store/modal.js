@@ -1,11 +1,11 @@
 export const state = () => ({
   loginModal: false,
-  signUpModal: false
+  signUpModal: false,
 })
 
 export const getters = {
   loginModal: (state) => state.loginModal,
-  signUpModal: (state) => state.signUpModal
+  signUpModal: (state) => state.signUpModal,
 }
 
 export const mutations = {
@@ -14,7 +14,7 @@ export const mutations = {
   },
   clickSignUpModal(state, bool) {
     state.signUpModal = bool
-  }
+  },
 }
 
 export const actions = {
@@ -23,5 +23,5 @@ export const actions = {
   },
   async signUpUser({ commit }, bool) {
     commit("clickSignUpModal", bool)
-  }
+  },
 }

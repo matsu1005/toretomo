@@ -29,3 +29,5 @@
 .irb_history
 
 /public/uploads
+
+/.cache

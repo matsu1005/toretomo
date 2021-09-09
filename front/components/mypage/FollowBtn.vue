@@ -1,28 +1,30 @@
 <template>
   <div v-if="user.id !== currentUser.id">
-    <v-btn 
+    <v-btn
       v-if="isLiked"
       :disabled="!$auth.loggedIn"
-      @click="userUnFollow()"
-      small 
+      small
       color="primary"
-      class="mb-3">
+      class="mb-3"
+      @click="userUnFollow()"
+    >
       フォロー中
     </v-btn>
-    <v-btn 
-      v-else 
-      outlined 
+    <v-btn
+      v-else
+      outlined
       :disabled="!$auth.loggedIn"
+      small
+      class="mb-3"
       @click="userFollow()"
-      small 
-      class="mb-3">
+    >
       フォロー
     </v-btn>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex"
 export default {
   props: {
     user: {
@@ -32,27 +34,32 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'currentUser/user',
+      currentUser: "currentUser/user",
     }),
     isLiked() {
       if (!this.currentUser) return false
       if (this.user.followers) {
-        return this.user.followers.find(ele => ele.id === this.currentUser.id)
+        return this.user.followers.find((ele) => ele.id === this.currentUser.id)
       }
-    }
+    },
   },
   methods: {
-    ...mapActions ({
-      setUser: "user/setUser"
+    ...mapActions({
+      setUser: "user/setUser",
     }),
     async userFollow() {
       let formData = {
         user_id: this.currentUser.id,
         follow_id: this.user.id,
       }
-      await this.$axios.post('/api/v1/relationships', formData)
+      await this.$axios
+        .post("/api/v1/relationships", formData)
         .then((response) => {
-          this.$store.commit("flashMessage/setMessage", "ユーザーをフォローしました。", { root: true })
+          this.$store.commit(
+            "flashMessage/setMessage",
+            "ユーザーをフォローしました。",
+            { root: true }
+          )
           this.$store.commit("flashMessage/setType", "success", { root: true })
           this.$store.commit("flashMessage/setStatus", true, { root: true })
           setTimeout(() => {
@@ -69,9 +76,14 @@ export default {
         user_id: this.currentUser.id,
         follow_id: this.user.id,
       }
-      await this.$axios.delete('/api/v1/relationships', {params: formData})
+      await this.$axios
+        .delete("/api/v1/relationships", { params: formData })
         .then((response) => {
-          this.$store.commit("flashMessage/setMessage", "フォローを解除しました。", { root: true })
+          this.$store.commit(
+            "flashMessage/setMessage",
+            "フォローを解除しました。",
+            { root: true }
+          )
           this.$store.commit("flashMessage/setType", "orange", { root: true })
           this.$store.commit("flashMessage/setStatus", true, { root: true })
           setTimeout(() => {
@@ -83,6 +95,6 @@ export default {
           console.log(error)
         })
     },
-  }
+  },
 }
 </script>

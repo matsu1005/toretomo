@@ -1,10 +1,10 @@
 export const state = () => ({
-  messages: ''
+  messages: "",
 })
 
 export const getters = {
   getMessages: (state) => state.messages,
-  existsMessages: (state) => state.messages !== ''
+  existsMessages: (state) => state.messages !== "",
 }
 
 export const mutations = {
@@ -12,15 +12,15 @@ export const mutations = {
     state.messages = messages
   },
   clearMessages(state) {
-    state.messages = ''
+    state.messages = ""
   },
 }
 
 export const actions = {
-  setMessages( { commit }, messages) {
-    commit('setMessages', messages)
+  setMessages({ commit }, messages) {
+    commit("setMessages", messages)
   },
-  clearMessages( { commit } ) {
-    commit('clearMessages')
-  }
+  clearMessages({ commit }) {
+    commit("clearMessages")
+  },
 }

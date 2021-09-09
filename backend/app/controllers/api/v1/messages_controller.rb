@@ -18,7 +18,7 @@ module Api
         if @message.save
           render json: @message 
         else 
-          render status: 400, json: {errors: {status: 400, error: @message.errors.full_messages}}
+          render status: :bad_request, json: {errors: {status: 400, error: @message.errors.full_messages}}
         end
       end
 
@@ -27,7 +27,7 @@ module Api
         if message.destroy
           render json: message
         else
-          render status: 400, json: {errors: {status: 400, error: message.errors.full_messages}}
+          render status: :bad_request, json: {errors: {status: 400, error: message.errors.full_messages}}
         end
       end
 

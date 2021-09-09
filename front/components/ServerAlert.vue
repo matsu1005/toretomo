@@ -1,17 +1,21 @@
 <template>
-  <v-row justify="center" v-if="existsMessages">
-    <v-alert 
+  <v-row v-if="existsMessages" justify="center">
+    <v-alert
       border="right"
       colored-border
       type="error"
       elevation="2"
-      max-width=500
-      style="margin: 0 15px 15px; padding: 5px 16px">
+      max-width="500"
+      style="margin: 0 15px 15px; padding: 5px 16px"
+    >
       <ul>
-        <li v-for="(msg, index) in messages" :key="index"
-          style="list-style: square;">
+        <li
+          v-for="(msg, index) in messages"
+          :key="index"
+          style="list-style: square"
+        >
           <!-- <small>{{msg}}</small> -->
-          {{msg}}
+          {{ msg }}
         </li>
       </ul>
     </v-alert>
@@ -19,14 +23,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex" 
+import { mapGetters } from "vuex"
 
 export default {
   computed: {
     ...mapGetters({
-      messages: 'errorMessage/getMessages',
-      existsMessages: 'errorMessage/existsMessages'
-    })
+      messages: "errorMessage/getMessages",
+      existsMessages: "errorMessage/existsMessages",
+    }),
   },
 }
 </script>

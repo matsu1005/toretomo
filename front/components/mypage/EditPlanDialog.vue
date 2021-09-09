@@ -1,19 +1,21 @@
 <template>
-  <v-dialog
-    v-model="editDialog"
-    max-width="550px"
-  >
+  <v-dialog v-model="editDialog" max-width="550px">
     <v-card>
-      <v-btn icon large 
-      class="mt-3"
-      @click="editDialog = false, clearMessages()"
-      style="position: fixed">
+      <v-btn
+        icon
+        large
+        class="mt-3"
+        style="position: fixed"
+        @click=";(editDialog = false), clearMessages()"
+      >
         <v-icon>mdi-close</v-icon>
-      </v-btn>  
+      </v-btn>
       <v-row justify="center">
-        <v-card-title class="mt-8 display-1">トレーニングプランの編集</v-card-title>
+        <v-card-title class="mt-8 display-1"
+          >トレーニングプランの編集</v-card-title
+        >
       </v-row>
-      <server-alert/> 
+      <server-alert />
       <v-card-text>
         <v-container>
           <v-row>
@@ -32,11 +34,7 @@
                 solo
               ></v-textarea>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
+            <v-col cols="12" sm="6" md="4">
               <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
@@ -45,7 +43,7 @@
                 offset-y
                 min-width="auto"
               >
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                   <v-text-field
                     v-model="editPlan.start_ymd"
                     label="開催日"
@@ -61,11 +59,7 @@
                 ></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
+            <v-col cols="12" sm="6" md="4">
               <v-text-field
                 v-model="editPlan.start_time"
                 label="開始時間"
@@ -73,11 +67,7 @@
                 hint="右の時計のｱｲｺﾝをｸﾘｯｸ"
               ></v-text-field>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
+            <v-col cols="12" sm="6" md="4">
               <v-select
                 v-model="editPlan.duration"
                 label="所要時間"
@@ -86,11 +76,7 @@
                 required
               ></v-select>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
+            <v-col cols="12" sm="6" md="4">
               <v-select
                 v-model="editPlan.event_cls"
                 :items="['Swim', 'Bike', 'Run']"
@@ -99,11 +85,7 @@
                 required
               ></v-select>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
+            <v-col cols="12" sm="6" md="4">
               <v-select
                 v-model="editPlan.train_strength"
                 :items="['fun', 'hard']"
@@ -111,21 +93,14 @@
                 required
               ></v-select>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
+            <v-col cols="12" sm="6" md="4">
               <v-text-field
                 v-model="editPlan.join_limit"
                 label="参加人数"
                 type="number"
               ></v-text-field>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
+            <v-col cols="12" sm="6">
               <v-text-field
                 v-model="editPlan.place"
                 label="集合場所"
@@ -134,13 +109,19 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-            >
+            <v-col cols="12" sm="6">
               <v-select
                 v-model="editPlan.prefecture"
-                :items="['東京都', '埼玉県', '神奈川県', '千葉県', '群馬県', '栃木県', '茨城県', '山梨県']"
+                :items="[
+                  '東京都',
+                  '埼玉県',
+                  '神奈川県',
+                  '千葉県',
+                  '群馬県',
+                  '栃木県',
+                  '茨城県',
+                  '山梨県',
+                ]"
                 label="エリア区分"
                 prepend-inner-icon="mdi-map-marker"
                 required
@@ -154,29 +135,23 @@
         <v-btn
           color="blue darken-1"
           text
-          @click="editDialog = false, clearMessages()"
+          @click=";(editDialog = false), clearMessages()"
         >
           Close
         </v-btn>
-        <v-btn
-          color="blue darken-1"
-          text
-          @click="updateMyPlan()"
-        >
-          Save
-        </v-btn>
+        <v-btn color="blue darken-1" text @click="updateMyPlan()"> Save </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import ServerAlert from '~/components/ServerAlert.vue'
+import { mapActions, mapGetters } from "vuex"
+import ServerAlert from "~/components/ServerAlert.vue"
 
 export default {
   components: {
-    ServerAlert
+    ServerAlert,
   },
   props: {
     plan: {
@@ -193,16 +168,15 @@ export default {
         title: this.plan.title,
         detail: this.plan.detail,
         start_ymd: this.plan.start_ymd,
-        start_time: new Date(this.plan.start_time).toTimeString().split(' ')[0],
+        start_time: new Date(this.plan.start_time).toTimeString().split(" ")[0],
         duration: this.plan.duration,
         event_cls: this.plan.event_cls,
         train_strength: this.plan.train_strength,
         place: this.plan.place,
         prefecture: this.plan.prefecture,
         join_limit: this.plan.join_limit,
-
       },
-      editDialog: true
+      editDialog: true,
     }
   },
   computed: {
@@ -214,25 +188,25 @@ export default {
     ...mapActions({
       openPlanDialog: "plan/openPlanDialog",
       clearMessages: "errorMessage/clearMessages",
-      updatePlan: "plan/updatePlan"
+      updatePlan: "plan/updatePlan",
     }),
     updateMyPlan() {
       this.updatePlan(this.editPlan)
       this.clearMessages()
-    }
+    },
   },
   watch: {
     editDialog() {
       this.$emit("close")
       this.$store.dispatch("errorMessage/clearMessages", null)
     },
-    successPost: function(newVal, oldVal) {
+    successPost: function (newVal, oldVal) {
       if (this.successPost) {
         this.$emit("close")
         this.$store.commit("plan/setSuccessPost", false)
-        }
-        return
       }
-    }
+      return
+    },
+  },
 }
 </script>
