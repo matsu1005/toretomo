@@ -9,10 +9,10 @@ module Api
           if join.save
             render json: join
           else
-            render status: 400, json: {errors: {status: 400, error: join.errors.full_messages}}
+            render status: :bad_request, json: {errors: {status: 400, error: join.errors.full_messages}}
           end
         else
-          render status: 400, json: {errors: {status: 400, error: ["参加上限に達しています。"]}}
+          render status: :bad_request, json: {errors: {status: 400, error: ["参加上限に達しています。"]}}
         end
       end
 
@@ -21,7 +21,7 @@ module Api
         if join.destroy
           render json: join
         else
-          render status: 400, json: {errors: {status: 400, error: join.errors.full_messages}}
+          render status: :bad_request, json: {errors: {status: 400, error: join.errors.full_messages}}
         end
       end
 

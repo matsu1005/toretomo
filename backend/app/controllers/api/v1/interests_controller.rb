@@ -8,7 +8,7 @@ module Api
         if interest.save
           render json: interest
         else
-          render status: 400, json: {errors: {status: 400, error: interest.errors.full_messages}}
+          render status: :bad_request, json: {errors: {status: 400, error: interest.errors.full_messages}}
         end
       end
 
@@ -17,7 +17,7 @@ module Api
         if interest.destroy
           render json: @user
         else
-          render status: 400, json: {errors: {status: 400, error: interest.errors.full_messages}}
+          render status: :bad_request, json: {errors: {status: 400, error: interest.errors.full_messages}}
         end
       end
 
