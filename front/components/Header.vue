@@ -57,8 +57,8 @@
       >
         <span style="color: white">logout</span>
       </v-btn>
-      <about-dialog v-if="aboutDialog" @close="closeDialog" />
     </template>
+    <about-dialog v-if="aboutDialog" @close="closeDialog" />
   </v-app-bar>
 </template>
 
