@@ -6,7 +6,7 @@
       </nuxt-link>
     </v-toolbar-title>
     <v-spacer />
-    <v-btn color="#445CB0" to="#" class="header-link">
+    <v-btn color="#445CB0" class="header-link" @click="aboutDialog = true">
       <span>toretomoについて</span>
     </v-btn>
     <v-btn
@@ -57,6 +57,7 @@
       >
         <span style="color: white">logout</span>
       </v-btn>
+      <about-dialog v-if="aboutDialog" @close="closeDialog" />
     </template>
   </v-app-bar>
 </template>
@@ -66,14 +67,18 @@ import { mapGetters, mapActions } from "vuex"
 
 import UserLogin from "~/components/UserLogin.vue"
 import UserSignup from "~/components/UserSignup.vue"
+import AboutDialog from "~/components/AboutDialog.vue"
 
 export default {
   components: {
     UserLogin,
     UserSignup,
+    AboutDialog,
   },
   data() {
-    return {}
+    return {
+      aboutDialog: false,
+    }
   },
   computed: {
     ...mapGetters({
@@ -96,6 +101,9 @@ export default {
         status: true,
       })
       this.clearCurrentUser()
+    },
+    closeDialog() {
+      this.aboutDialog = false
     },
   },
 }
