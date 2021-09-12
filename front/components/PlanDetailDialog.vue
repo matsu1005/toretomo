@@ -69,15 +69,13 @@
           <v-icon color="orange">mdi-calendar</v-icon>
           開催日時 :
           <strong
-            >{{ $dayjs(plan.start_ymd).format("MM月DD日") }}
-            {{ $dayjs(plan.start_time).format("HH:mm") }}</strong
+            >{{ $dayjs(plan.start_ymd).format("MM月DD日") }} {{ $dayjs(plan.start_time).format("HH:mm") }}</strong
           >
           所要時間 : <strong>{{ plan.duration }}時間</strong>
         </p>
         <p>
           <v-icon color="orange">mdi-map-marker</v-icon>
-          集合場所 : <strong>{{ plan.place }}</strong> エリア区分 :
-          <strong>{{ plan.prefecture }}</strong>
+          集合場所 : <strong>{{ plan.place }}</strong> エリア区分 :<strong>{{ plan.prefecture }}</strong>
         </p>
         <v-spacer class="mt-5"></v-spacer>
         <p style="display: inline; border-bottom: solid 2px gray">詳細内容</p>
