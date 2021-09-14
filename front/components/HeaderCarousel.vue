@@ -1,25 +1,48 @@
 <template>
-  <v-carousel height="400" class="ma-5">
-    <v-carousel-item
-      v-for="(item, i) in items"
-      :key="i"
-      :src="item.src"
-      reverse-transition="fade-transition"
-      transition="fade-transition"
-      style="position: relative"
-    >
-      <v-btn
-        v-if="!$auth.loggedIn"
-        x-large
-        color="orange"
-        class="kantan-login-btn"
-        @click="kantanLogin()"
+  <div>
+    <v-carousel height="400" class="mt-5" id="pc-carousel">
+      <v-carousel-item
+        v-for="(item, i) in items"
+        :key="i"
+        :src="item.src"
+        reverse-transition="fade-transition"
+        transition="fade-transition"
+        style="position: relative"
       >
-        <v-icon> mdi-login </v-icon>
-        簡単ログイン
-      </v-btn>
-    </v-carousel-item>
-  </v-carousel>
+        <v-btn
+          v-if="!$auth.loggedIn"
+          x-large
+          color="orange"
+          class="kantan-login-btn"
+          @click="kantanLogin()"
+        >
+          <v-icon> mdi-login </v-icon>
+          簡単ログイン
+        </v-btn>
+      </v-carousel-item>
+    </v-carousel>
+    <v-carousel height="200" class="mt-5" id="sp-carousel">
+      <v-carousel-item
+        v-for="(item, i) in items"
+        :key="i"
+        :src="item.src"
+        reverse-transition="fade-transition"
+        transition="fade-transition"
+        style="position: relative"
+      >
+        <v-btn
+          v-if="!$auth.loggedIn"
+          x-large
+          color="orange"
+          class="kantan-login-btn"
+          @click="kantanLogin()"
+        >
+          <v-icon> mdi-login </v-icon>
+          簡単ログイン
+        </v-btn>
+      </v-carousel-item>
+    </v-carousel>
+  </div>
 </template>
 
 <script>
@@ -81,5 +104,19 @@ export default {
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+}
+
+#sp-carousel {
+  display: none;
+}
+
+@media screen and (max-width: 850px) {
+  #pc-carousel {
+    display: none;
+  }
+
+  #sp-carousel {
+    display: block;
+  }
 }
 </style>
