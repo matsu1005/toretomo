@@ -179,10 +179,17 @@ export default {
   color: white;
 }
 
+#sp-nav {
+  display: none;
+}
 
 @media screen and (max-width: 580px) {
   #pc-nav {
     display: none;
+  }
+
+  #sp-nav {
+    display: block;
   }
 
   .btn-list {
