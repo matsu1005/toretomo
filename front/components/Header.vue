@@ -6,58 +6,116 @@
       </nuxt-link>
     </v-toolbar-title>
     <v-spacer />
-    <v-btn color="#445CB0" class="header-link" @click="aboutDialog = true">
-      <span>toretomoについて</span>
-    </v-btn>
-    <v-btn
-      v-if="$auth.loggedIn"
-      :to="{ path: `/users/${currentUser.id}` }"
-      class="header-link"
-      plain
-    >
-      <span>マイページ</span>
-    </v-btn>
-    <template v-if="!$auth.loggedIn">
+    <div id="pc-nav">
+      <v-btn color="#445CB0" class="header-link" @click="aboutDialog = true">
+        <span>toretomoについて</span>
+      </v-btn>
       <v-btn
-        color="primary"
-        to="/"
+        v-if="$auth.loggedIn"
+        :to="{ path: `/users/${currentUser.id}` }"
         class="header-link"
         plain
-        @click.stop="loginDialog(true)"
       >
-        <span style="color: white">login</span>
+        <span>マイページ</span>
       </v-btn>
-      <v-dialog v-model="loginModal" max-width="600px" persistent>
-        <user-login />
-      </v-dialog>
-    </template>
+      <template v-if="!$auth.loggedIn">
+        <v-btn
+          color="primary"
+          to="/"
+          class="header-link"
+          plain
+          @click.stop="loginDialog(true)"
+        >
+          <span style="color: white">login</span>
+        </v-btn>
+      </template>
 
-    <template v-if="!$auth.loggedIn">
-      <v-btn
-        color="primary"
-        to="/"
-        class="header-link"
-        plain
-        @click.stop="signUpDialog(true)"
-      >
-        <span style="color: white">signup</span>
-      </v-btn>
-      <v-dialog v-model="signUpModal" max-width="600px" persistent>
-        <user-signup />
-      </v-dialog>
-    </template>
+      <template v-if="!$auth.loggedIn">
+        <v-btn
+          color="primary"
+          to="/"
+          class="header-link"
+          plain
+          @click.stop="signUpDialog(true)"
+        >
+          <span style="color: white">signup</span>
+        </v-btn>
+      </template>
 
-    <template v-if="$auth.loggedIn">
-      <v-btn
-        color="primary"
-        to="/"
-        class="header-link"
-        plain
-        @click="$auth.logout(), logoutUser()"
+      <template v-if="$auth.loggedIn">
+        <v-btn
+          color="primary"
+          to="/"
+          class="header-link"
+          plain
+          @click="$auth.logout(), logoutUser()"
+        >
+          <span style="color: white">logout</span>
+        </v-btn>
+      </template>
+    </div>
+    <div id="sp-nav">
+      <v-menu
+        bottom
+        left
       >
-        <span style="color: white">logout</span>
-      </v-btn>
-    </template>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list style="padding:0;">
+          <v-list-item class="btn-list">
+            <v-btn  
+              @click="aboutDialog = true"
+              style="width:100%; margin:0 auto;">
+              <span>toretomoについて</span>
+            </v-btn>
+          </v-list-item>
+          <v-list-item class="btn-list" v-if="$auth.loggedIn">
+            <v-btn
+              :to="{ path: `/users/${currentUser.id}` }"
+              style="width:100%; margin:0 auto;">
+              <span>マイページ</span>
+            </v-btn>
+          </v-list-item>
+          <v-list-item class="btn-list" v-if="!$auth.loggedIn">
+            <v-btn
+              @click.stop="loginDialog(true)"
+              style="width:100%; margin:0 auto;">
+              <span>login</span>
+            </v-btn>
+          </v-list-item>
+          <v-list-item class="btn-list" v-if="!$auth.loggedIn">
+            <v-btn
+              @click.stop="signUpDialog(true)"
+              style="width:100%; margin:auto;">
+              <span>signup</span>
+            </v-btn>
+          </v-list-item>
+          <v-list-item class="btn-list" v-if="$auth.loggedIn">
+            <v-btn
+              @click="$auth.logout(), logoutUser()"
+              style="width:100%; margin:auto;"
+            >
+              <span>logout</span>
+            </v-btn>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+    </div>
+    <v-dialog v-model="loginModal" max-width="600px" persistent>
+      <user-login />
+    </v-dialog>
+    <v-dialog v-model="signUpModal" max-width="600px" persistent>
+      <user-signup />
+    </v-dialog>
     <about-dialog v-if="aboutDialog" @close="closeDialog" />
   </v-app-bar>
 </template>
@@ -119,5 +177,16 @@ export default {
 
 .v-application a {
   color: white;
+}
+
+
+@media screen and (max-width: 580px) {
+  #pc-nav {
+    display: none;
+  }
+
+  .btn-list {
+    padding: 0 5px;
+  }
 }
 </style>
