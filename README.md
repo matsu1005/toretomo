@@ -2,7 +2,8 @@
 『toretomo』は市民アスリートが簡単に練習パートナーを見つけられるマッチングアプリです！  
 基本機能はログイン無しで閲覧可能ですのでお気軽にご覧下さい。(ゲストログインも用意しています！)
   
-### リンク: <a href="https://toretomo.jp">toretomoを触ってみる
+### リンク: ~~toretomoを触ってみる~~
+2020/10/14停止
   
 ### トップページ
   ![localhost_8080_](https://user-images.githubusercontent.com/55049751/132280926-32586549-741f-46aa-a1aa-41d7de1c6c43.png)
